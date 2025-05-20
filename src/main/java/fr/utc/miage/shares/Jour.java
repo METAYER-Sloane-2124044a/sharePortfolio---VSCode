@@ -20,7 +20,7 @@ package fr.utc.miage.shares;
  *
  * @author David Navarre &lt;David.Navarre@ut-capitole.fr&gt;
  */
-public class Jour {
+public class Jour implements Comparable<Jour> {
 
     /**
      * Year attribute.
@@ -95,4 +95,13 @@ public class Jour {
         return "Jour [year=" + year + ", day=" + day + "]";
     }
 
+    @Override
+    public int compareTo(Jour other) {
+        if (this.year != other.year) {
+            return Integer.compare(this.year, other.year);
+        } else {
+            return Integer.compare(this.day, other.day);
+        }
+    }
+    
 }
