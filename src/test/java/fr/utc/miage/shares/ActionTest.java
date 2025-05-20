@@ -98,4 +98,11 @@ class ActionTest {
         }
     }
 
+    @Test
+    void testCreationActionSimpleShouldWork(){
+        Assertions.assertDoesNotThrow(()->{
+            new ActionSimple("Action test");
+        });
+    }
+
 }
