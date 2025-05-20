@@ -27,13 +27,15 @@ public class ActionSimpleTest {
     void testEnregistrerCoursActionWithIncorrectParametersShouldThrowException(){
         final ActionSimple action = new ActionSimple(FOO_SHARE1);
 
-        final Jour jour = new Jour(2025, 1);
+        final Jour jour0 = new Jour(2024, 1);
+        final Jour jour1 = new Jour(2025, 1);
         final Jour jour2 = new Jour(2025, 5);
 
-        action.enrgCours(jour, 2);
+        action.enrgCours(jour1, 2);
 
         Assertions.assertAll("Set",
-            () -> Assertions.assertThrows(IllegalArgumentException.class, () -> action.enrgCours(jour, 3f)),  // Même jour
+            () -> Assertions.assertThrows(IllegalArgumentException.class, () -> action.enrgCours(jour1, 3f)),  // Même jour
+            () -> Assertions.assertThrows(IllegalArgumentException.class, () ->  action.enrgCours(jour0, 3f)),  // Jour avant dernier jour
             () -> Assertions.assertThrows(IllegalArgumentException.class, () ->  action.enrgCours(jour2, 0f)),  // <=0
             () -> Assertions.assertThrows(IllegalArgumentException.class, () ->  action.enrgCours(jour2, -5f))  // <= 0
         );
