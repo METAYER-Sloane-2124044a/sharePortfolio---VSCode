@@ -50,6 +50,9 @@ public class ActionSimple extends Action {
             if(j.compareTo(dernierJourModif) > 0){
                 dernierJourModif = j;
             }
+            else {
+                throw new IllegalArgumentException("Le jour de l'enregistrement du cours doit être postérieur au dernier jour ajouté");
+            }
         }
         else {
             throw new IllegalArgumentException("Le cours de l'action pour ce jour existe déjà");
