@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 
 class JourTest {
@@ -124,6 +126,47 @@ class JourTest {
 
         assertEquals(expected, result,
                 "ToString should be format as \"Jour [year=\" + year + \", day=\" + day + \"]\"");
+    }
+
+    @Test
+    void testCompareTo_sameDate_shouldReturnZero() {
+        Jour j1 = new Jour(2025, 100);
+        Jour j2 = new Jour(2025, 100);
+        assertEquals(0, j1.compareTo(j2));
+    }
+
+    @Test
+    void testCompareTo_earlierYear_shouldReturnNegative() {
+        Jour j1 = new Jour(2024, 100);
+        Jour j2 = new Jour(2025, 100);
+        assertTrue(j1.compareTo(j2) < 0);
+    }
+
+    @Test
+    void testCompareTo_laterYear_shouldReturnPositive() {
+        Jour j1 = new Jour(2026, 100);
+        Jour j2 = new Jour(2025, 100);
+        assertTrue(j1.compareTo(j2) > 0);
+    }
+
+    @Test
+    void testCompareTo_sameYearEarlierDay_shouldReturnNegative() {
+        Jour j1 = new Jour(2025, 50);
+        Jour j2 = new Jour(2025, 100);
+        assertTrue(j1.compareTo(j2) < 0);
+    }
+
+    @Test
+    void testCompareTo_sameYearLaterDay_shouldReturnPositive() {
+        Jour j1 = new Jour(2025, 150);
+        Jour j2 = new Jour(2025, 100);
+        assertTrue(j1.compareTo(j2) > 0);
+    }
+
+    @Test
+    void testCompareTo_null_shouldThrowNullPointerException() {
+        Jour j1 = new Jour(2025, 100);
+        assertThrows(NullPointerException.class, () -> j1.compareTo(null));
     }
 
     /**
