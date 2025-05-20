@@ -22,56 +22,58 @@ import org.junit.jupiter.api.Test;
 
 class ActionTest {
 
-    private static final String FOO_SHARE1 = "Foo Share 1";
-    private static final String FOO_SHARE2 = "Foo Share 2";
+    private static final String DEFAULT_ACTION_NAME1 = "Action A";
+    private static final String DEFAULT_ACTION_NAME2 = "Action B";
+    private static final String DEFAULT_ACTION_NAME3 = "Action C";
+    
+    private static final String DEFAULT_COMPOUNDED_ACTION_NAME = "Action composée Test";
 
-    private static final String DEFAULT_ACTION_NAME = "Action test";
-    private static final List<ActionSimple> DEFAULT_LIST_ACTIONS = List.of(new ActionSimple(FOO_SHARE1), new ActionSimple(FOO_SHARE2), new ActionSimple(DEFAULT_ACTION_NAME));
+    private static final List<ActionSimple> DEFAULT_LIST_ACTIONS = List.of(new ActionSimple(DEFAULT_ACTION_NAME1), new ActionSimple(DEFAULT_ACTION_NAME2), new ActionSimple(DEFAULT_ACTION_NAME3));
     private static final List<Float> DEFAULT_LIST_FRACTIONS = List.of(0.3F, 0.3F,0.4F);
     @Test
     void testGetLibelleReturnConstructorParameter() {
-        final Action action = new ActionImpl(FOO_SHARE1);
+        final Action action = new ActionImpl(DEFAULT_ACTION_NAME1);
         final String result = action.getLibelle();
 
-        Assertions.assertEquals(FOO_SHARE1, result,
+        Assertions.assertEquals(DEFAULT_ACTION_NAME1, result,
                 "Property Libelle value should be the same as the parameter used for construction");
     }
 
     @Test
     void testToStringReturnConstructorParameter() {
-        final Action action = new ActionImpl(FOO_SHARE1);
+        final Action action = new ActionImpl(DEFAULT_ACTION_NAME1);
         final String result = action.toString();
 
-        Assertions.assertEquals(FOO_SHARE1, result,
+        Assertions.assertEquals(DEFAULT_ACTION_NAME1, result,
                 "Property Libelle value should be the same as the parameter used for construction");
     }
 
     @Test
     void testEqualsWithSameObject() {
-        final Action action = new ActionImpl(FOO_SHARE1);
+        final Action action = new ActionImpl(DEFAULT_ACTION_NAME1);
 
         Assertions.assertTrue(action.equals(action));
     }
 
     @Test
     void testEqualsWithSimilarObject() {
-        final Action action1 = new ActionImpl(FOO_SHARE1);
-        final Action action2 = new ActionImpl(FOO_SHARE1);
+        final Action action1 = new ActionImpl(DEFAULT_ACTION_NAME1);
+        final Action action2 = new ActionImpl(DEFAULT_ACTION_NAME1);
 
         Assertions.assertTrue(action1.equals(action2));
     }
 
     @Test
     void testEqualsWithDifferentObject() {
-        final Action action1 = new ActionImpl(FOO_SHARE1);
-        final Action action2 = new ActionImpl(FOO_SHARE2);
+        final Action action1 = new ActionImpl(DEFAULT_ACTION_NAME1);
+        final Action action2 = new ActionImpl(DEFAULT_ACTION_NAME2);
 
         Assertions.assertFalse(action1.equals(action2));
     }
 
     @Test
     void testEqualsWithNullObject() {
-        final Action action1 = new ActionImpl(FOO_SHARE1);
+        final Action action1 = new ActionImpl(DEFAULT_ACTION_NAME1);
         final Action action2 = null;
 
         Assertions.assertFalse(action1.equals(action2));
@@ -79,7 +81,7 @@ class ActionTest {
 
     @Test
     void testEqualsWithObjectFromOtherClass() {
-        final Action action1 = new ActionImpl(FOO_SHARE1);
+        final Action action1 = new ActionImpl(DEFAULT_ACTION_NAME1);
         final Integer action2 = 0;
 
         Assertions.assertFalse(action1.equals(action2));
@@ -87,7 +89,7 @@ class ActionTest {
 
     @Test
     void testHashCode() {
-        final Action action = new ActionImpl(FOO_SHARE1);
+        final Action action = new ActionImpl(DEFAULT_ACTION_NAME1);
         Assertions.assertDoesNotThrow(action::hashCode, "hashcode must always provide a value");
     }
 
@@ -106,15 +108,14 @@ class ActionTest {
     @Test
     void testCreationActionSimpleShouldWork(){
         Assertions.assertDoesNotThrow(()->{
-            new ActionSimple(DEFAULT_ACTION_NAME);
+            new ActionSimple(DEFAULT_ACTION_NAME3);
         });
     }
 
     @Test
     void testCreationActionComposeeShouldWork() {
         Assertions.assertDoesNotThrow(() -> {
-            new ActionComposee(DEFAULT_ACTION_NAME, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS);
+            new ActionComposee(DEFAULT_COMPOUNDED_ACTION_NAME, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS);
         });
     }
-
 }
