@@ -31,13 +31,16 @@ public class Portefeuille {
         this.value = value;
     }
 
-    public String VisuPortefeuille() {
+    public String visuPortefeuille() {
         return "Valeur du portefeuille : " + this.value + " €";
     }
 
-    public void AjouterDesFonds(double valeur){
+    public void ajouterDesFonds(double valeur) throws AddNegativeValueException{
+        if(valeur < 0){
+            throw new AddNegativeValueException("Merci de saisir un montant supérieur à 0");
+        }
+       
         this.value = this.value + valeur;
-
     }
 
 }
