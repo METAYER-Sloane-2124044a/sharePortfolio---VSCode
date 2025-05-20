@@ -87,5 +87,11 @@ public class ActionComposee extends Action{
         return this.mapCours.getOrDefault(j, Float.valueOf(DEFAULT_ACTION_VALUE));
     }
 
+    @Override
+    public String visualiserAction() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'visualiserAction'");
+    }
+
     
 }
