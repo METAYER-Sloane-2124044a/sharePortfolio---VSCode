@@ -34,4 +34,10 @@ public class Portefeuille {
     public String VisuPortefeuille() {
         return "Valeur du portefeuille : " + this.value + " €";
     }
+
+    public void AjouterDesFonds(double valeur){
+        this.value = this.value + valeur;
+
+    }
+
 }
