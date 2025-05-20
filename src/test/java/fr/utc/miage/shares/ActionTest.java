@@ -119,6 +119,12 @@ class ActionTest {
         public float valeur(final Jour aJour) {
             return 0.0F;
         }
+
+        @Override
+        public String visualiserAction() {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'visualiserAction'");
+        }
     }
 
     @Test

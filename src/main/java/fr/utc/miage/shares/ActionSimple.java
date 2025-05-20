@@ -49,6 +49,7 @@ public class ActionSimple extends Action {
         }
     }
 
+    @Override
     public String visualiserAction() {
         return "[" + this.getLibelle() + "] Valeur : " + (double)this.valeur(dernierJourModif) + "€";
     }
