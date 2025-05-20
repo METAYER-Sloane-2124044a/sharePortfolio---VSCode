@@ -26,6 +26,7 @@ import java.util.Map;
 public class ActionSimple extends Action {
 
     private static final int DEFAULT_ACTION_VALUE = 0;
+    private Jour dernierJourModif = new Jour(1,1);
 
     // attribut lien
     private final Map<Jour, Float> mapCours;
@@ -42,7 +43,14 @@ public class ActionSimple extends Action {
     public void enrgCours(final Jour j, final float v) {
         if (!this.mapCours.containsKey(j)) {
             this.mapCours.put(j, v);
+            if(j.compareTo(dernierJourModif) > 0){
+                dernierJourModif = j;
+            }
         }
+    }
+
+    public String visualiserAction() {
+        return "[" + this.getLibelle() + "] Valeur : " + (double)this.valeur(dernierJourModif) + "€";
     }
 
     @Override
@@ -53,4 +61,7 @@ public class ActionSimple extends Action {
             return DEFAULT_ACTION_VALUE;
         }
     }
+
+
+
 }

@@ -15,6 +15,9 @@
  */
 package fr.utc.miage.shares;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -84,6 +87,19 @@ class ActionTest {
     void testHashCode() {
         final Action action = new ActionImpl(FOO_SHARE1);
         Assertions.assertDoesNotThrow(action::hashCode, "hashcode must always provide a value");
+    }
+
+    @Test
+    void testVisualiserActionSimpleShouldBeWork() {
+        final ActionSimple actionTest = new ActionSimple(FOO_SHARE1);
+        final Jour janv20 = new Jour(2025, 20);
+        final float VALEUR_ACTION_TEST = 50F;
+        actionTest.enrgCours(janv20, VALEUR_ACTION_TEST);
+
+        final String STR_ACTION_TEST = actionTest.visualiserAction();
+        final String STR_SHOULD_BE = "[" + FOO_SHARE1 + "] Valeur : " + (double)VALEUR_ACTION_TEST + "€";
+
+        assertEquals(STR_SHOULD_BE, STR_ACTION_TEST);
     }
 
     private static class ActionImpl extends Action {
