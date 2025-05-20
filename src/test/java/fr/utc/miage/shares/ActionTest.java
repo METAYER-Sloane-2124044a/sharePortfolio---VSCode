@@ -118,4 +118,15 @@ class ActionTest {
             new ActionComposee(DEFAULT_COMPOUNDED_ACTION_NAME, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS);
         });
     }
+
+    @Test
+    void testCreationActionSimpleShouldNotWork() {
+        Assertions.assertThrows(IllegalArgumentException.class,()->{
+            new ActionSimple("");
+        });
+
+        Assertions.assertThrows(IllegalArgumentException.class,()->{
+            new ActionSimple(null);
+        });
+    }
 }
