@@ -15,6 +15,8 @@
  */
 package fr.utc.miage.shares;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -23,6 +25,9 @@ class ActionTest {
     private static final String FOO_SHARE1 = "Foo Share 1";
     private static final String FOO_SHARE2 = "Foo Share 2";
 
+    private static final String DEFAULT_ACTION_NAME = "Action test";
+    private static final List<ActionSimple> DEFAULT_LIST_ACTIONS = List.of(new ActionSimple(FOO_SHARE1), new ActionSimple(FOO_SHARE2), new ActionSimple(DEFAULT_ACTION_NAME));
+    private static final List<Float> DEFAULT_LIST_FRACTIONS = List.of(0.3F, 0.3F,0.4F);
     @Test
     void testGetLibelleReturnConstructorParameter() {
         final Action action = new ActionImpl(FOO_SHARE1);
@@ -101,7 +106,14 @@ class ActionTest {
     @Test
     void testCreationActionSimpleShouldWork(){
         Assertions.assertDoesNotThrow(()->{
-            new ActionSimple("Action test");
+            new ActionSimple(DEFAULT_ACTION_NAME);
+        });
+    }
+
+    @Test
+    void testCreationActionComposeeShouldWork() {
+        Assertions.assertDoesNotThrow(() -> {
+            new ActionComposee(DEFAULT_ACTION_NAME, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS);
         });
     }
 
