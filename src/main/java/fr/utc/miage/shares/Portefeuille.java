@@ -2,17 +2,21 @@ package fr.utc.miage.shares;
 
 public class Portefeuille {
 
-    private int value;
+    private double value;
 
     public Portefeuille() {
         this.value = 0;
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(double value) {
         this.value = value;
+    }
+
+    public String VisuPortefeuille() {
+        return "Valeur du portefeuille : " + this.value + " €";
     }
 }
