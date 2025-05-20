@@ -66,6 +66,8 @@ public abstract class Action {
         return hash;
     }
 
+    public abstract String visualiserAction();
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

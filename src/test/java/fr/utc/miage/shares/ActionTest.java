@@ -17,6 +17,9 @@ package fr.utc.miage.shares;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -93,6 +96,19 @@ class ActionTest {
         Assertions.assertDoesNotThrow(action::hashCode, "hashcode must always provide a value");
     }
 
+    @Test
+    void testVisualiserActionSimpleShouldBeWork() {
+        final ActionSimple actionTest = new ActionSimple(DEFAULT_ACTION_NAME1);
+        final Jour janv20 = new Jour(2025, 20);
+        final float VALEUR_ACTION_TEST = 50F;
+        actionTest.enrgCours(janv20, VALEUR_ACTION_TEST);
+
+        final String STR_ACTION_TEST = actionTest.visualiserAction();
+        final String STR_SHOULD_BE = "[" + DEFAULT_ACTION_NAME1 + "] Valeur : " + (double)VALEUR_ACTION_TEST + "€";
+
+        assertEquals(STR_SHOULD_BE, STR_ACTION_TEST);
+    }
+
     private static class ActionImpl extends Action {
 
         public ActionImpl(final String aLabel) {
@@ -102,6 +118,12 @@ class ActionTest {
         @Override
         public float valeur(final Jour aJour) {
             return 0.0F;
+        }
+
+        @Override
+        public String visualiserAction() {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'visualiserAction'");
         }
     }
 
