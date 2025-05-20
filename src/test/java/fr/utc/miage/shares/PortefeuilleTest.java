@@ -21,17 +21,20 @@ import org.junit.jupiter.api.Test;
 
 public class PortefeuilleTest {
 
+    private static final String PORTFOLIO_VALUE = "Valeur du portefeuille : 500.0 €";
+    private static final double INITIAL_VALUE = 500.0;
+
     @Test
     void testVisuPortefeuille() {
         Portefeuille portefeuille = new Portefeuille();
-        portefeuille.setValue(500.00);
-        assertEquals("Valeur du portefeuille : 500.0 €", portefeuille.VisuPortefeuille());
+        portefeuille.setValue(INITIAL_VALUE);
+        assertEquals(PORTFOLIO_VALUE, portefeuille.VisuPortefeuille());
     }
 
     @Test
     void testGetValue() {
         Portefeuille portefeuille = new Portefeuille();
-        portefeuille.setValue(1000.00);
-        assertEquals(1000.00, portefeuille.getValue());
+        portefeuille.setValue(INITIAL_VALUE);
+        assertEquals(INITIAL_VALUE, portefeuille.getValue());
     }
 }
