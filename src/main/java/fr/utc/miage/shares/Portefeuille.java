@@ -31,7 +31,15 @@ public class Portefeuille {
         this.value = value;
     }
 
-    public String VisuPortefeuille() {
+    public String visuPortefeuille() {
         return "Valeur du portefeuille : " + this.value + " €";
     }
+
+    public void ajouterDesFonds(double valeur) {
+        if(valeur < 0){
+            throw new IllegalArgumentException("Merci de saisir un montant supérieur à 0");
+        }
+        this.value = this.value + valeur;
+    }
+
 }
