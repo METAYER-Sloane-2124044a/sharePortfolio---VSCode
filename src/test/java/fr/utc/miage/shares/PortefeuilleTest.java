@@ -15,15 +15,12 @@
  */
 package fr.utc.miage.shares;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class PortefeuilleTest {
+class PortefeuilleTest {
 
     private static final String PORTFOLIO_VALUE = "Valeur du portefeuille : 500.0 €";
     private static final double INITIAL_VALUE = 500.0;
@@ -41,11 +38,7 @@ public class PortefeuilleTest {
     void testAjouterDesFondsPositif(){
         Portefeuille portefeuille = new Portefeuille();
         portefeuille.setValue(INITIAL_VALUE);
-        try {
-            portefeuille.ajouterDesFonds(ADD_VALUE);
-        } catch (AddNegativeValueException e) {
-            e.printStackTrace();
-        }
+        portefeuille.ajouterDesFonds(ADD_VALUE);
         assertEquals(portefeuille.getValue(), INITIAL_VALUE+ ADD_VALUE);
     }
 
@@ -53,10 +46,7 @@ public class PortefeuilleTest {
     void testAjouterDesFondsNegatif(){
         Portefeuille portefeuille = new Portefeuille();
         portefeuille.setValue(INITIAL_VALUE);
-        Assertions.assertThrows(AddNegativeValueException.class, 
+        Assertions.assertThrows(IllegalArgumentException.class, 
             () -> portefeuille.ajouterDesFonds(ADD_VALUE_NEGATIF));
-
-    }
-
-  
+    }  
 }
