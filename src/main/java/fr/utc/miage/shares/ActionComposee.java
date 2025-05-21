@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ActionComposee extends Action{
+public class ActionComposee extends Action {
 
     private static final int DEFAULT_ACTION_VALUE = 0;
     private List<ActionSimple> actions = new ArrayList<>();
@@ -36,21 +36,24 @@ public class ActionComposee extends Action{
         super(libelle);
 
         Float sommeFractions = Float.valueOf(0);
-        
-        if (aListOfActions.size() != aListOfFractions.size()) throw new IllegalArgumentException("Les deux listes doivent être de même longueur.");
-        if (aListOfActions.size() < 2) throw new IllegalArgumentException("La liste d'actions doit avoir une longueur supérieure à 1.");
+
+        if (aListOfActions.size() != aListOfFractions.size())
+            throw new IllegalArgumentException("Les deux listes doivent être de même longueur.");
+        if (aListOfActions.size() < 2)
+            throw new IllegalArgumentException("La liste d'actions doit avoir une longueur supérieure à 1.");
         // init spécifique
         this.mapCours = new HashMap<>();
-        
+
         for (ActionSimple anAction : aListOfActions) {
             this.actions.add(anAction);
         }
 
         for (Float aFraction : aListOfFractions) {
-            if (aFraction <= 0 || aFraction >= 1) throw new IllegalArgumentException("La fraction d'action doit être comprise entre 0 et 1 non inclus.");
-            
+            if (aFraction <= 0 || aFraction >= 1)
+                throw new IllegalArgumentException("La fraction d'action doit être comprise entre 0 et 1 non inclus.");
+
             sommeFractions += aFraction;
-            
+
             this.fractions.add(aFraction);
         }
 
@@ -58,7 +61,6 @@ public class ActionComposee extends Action{
             throw new IllegalArgumentException("La somme des fractions doit être égale à 1 !");
         }
 
-        
     }
 
     @Override
@@ -100,7 +102,7 @@ public class ActionComposee extends Action{
 
     @Override
     public float valeur(Jour j) {
-       return this.mapCours.getOrDefault(j, Float.valueOf(DEFAULT_ACTION_VALUE));
+        return this.mapCours.getOrDefault(j, Float.valueOf(DEFAULT_ACTION_VALUE));
     }
 
     @Override
@@ -108,5 +110,11 @@ public class ActionComposee extends Action{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'visualiserAction'");
     }
-    
+
+    @Override
+    public float currentValeur() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'currentValeur'");
+    }
+
 }
