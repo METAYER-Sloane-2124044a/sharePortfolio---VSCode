@@ -17,6 +17,8 @@ package fr.utc.miage.shares;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Map;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -26,6 +28,13 @@ class PortefeuilleTest {
     private static final double INITIAL_VALUE = 500.0;
     private static final double ADD_VALUE = 100.0;
     private static final double ADD_VALUE_NEGATIF = -100.0;
+    private static final ActionSimple ACTION_TEST = new ActionSimple("ActionTest");
+    private static final int ACTION_NB = 10;
+    private static final double ACTION_VALUE = 10.0;
+
+
+
+
 
     @Test
     void testVisuPortefeuille() {
@@ -72,5 +81,22 @@ class PortefeuilleTest {
         portefeuille.setValue(INITIAL_VALUE);
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> portefeuille.retirerDesFonds(INITIAL_VALUE + ADD_VALUE));
+    }
+
+    @Test
+    void testAcheterAction(){
+        Portefeuille portefeuille = new Portefeuille();
+        portefeuille.acheterAction(ACTION_TEST,ACTION_NB);
+        assertEquals(ACTION_NB, portefeuille.getListeAction().get(ACTION_TEST));
+        double finalValue = INITIAL_VALUE - (ACTION_NB * ACTION_VALUE);
+        assertEquals(finalValue, portefeuille.getValue());
+    }
+
+    @Test
+    void testAcheterMemeAction(){
+        Portefeuille portefeuille = new Portefeuille();
+        portefeuille.acheterAction(ACTION_TEST,ACTION_NB);
+        portefeuille.acheterAction(ACTION_TEST,ACTION_NB);
+        assertEquals(2*ACTION_NB, portefeuille.getListeAction().get(ACTION_TEST));
     }
 }

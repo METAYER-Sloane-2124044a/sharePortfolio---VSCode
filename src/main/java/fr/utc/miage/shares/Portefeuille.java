@@ -15,9 +15,12 @@
  */
 package fr.utc.miage.shares;
 
+import java.util.HashMap;
+
 public class Portefeuille {
 
     private double value;
+    private HashMap<Action,Integer> listeAction = new HashMap<>();
 
     public Portefeuille() {
         this.value = 0;
@@ -29,6 +32,10 @@ public class Portefeuille {
 
     public void setValue(double value) {
         this.value = value;
+    }
+
+    public HashMap<Action, Integer> getListeAction() {
+        return listeAction;
     }
 
     public String visuPortefeuille() {
@@ -51,4 +58,12 @@ public class Portefeuille {
         this.value = this.value - valeur;
     }
 
+    public void acheterAction(Action action, int nb, Jour j) {
+        int totalNb = nb;
+        if(listeAction.get(action) != null) {
+            totalNb += listeAction.get(action); 
+        }
+        listeAction.put(action, totalNb);
+        this.retirerDesFonds(action.valeur(j) * nb);
+    }
 }
