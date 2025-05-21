@@ -65,4 +65,12 @@ class PortefeuilleTest {
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> portefeuille.retirerDesFonds(ADD_VALUE_NEGATIF));
     }
+
+    @Test
+    void testRetirerDesFondsTropGrand() {
+        Portefeuille portefeuille = new Portefeuille();
+        portefeuille.setValue(INITIAL_VALUE);
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> portefeuille.retirerDesFonds(INITIAL_VALUE + ADD_VALUE));
+    }
 }
