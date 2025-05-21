@@ -65,42 +65,26 @@ public class ActionComposee extends Action{
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((actions == null) ? 0 : actions.hashCode());
-        result = prime * result + ((fractions == null) ? 0 : fractions.hashCode());
-        result = prime * result + ((mapCours == null) ? 0 : mapCours.hashCode());
+        result = prime * result + actions.hashCode();
+        result = prime * result + fractions.hashCode();
+        result = prime * result + mapCours.hashCode();
         return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (!(obj instanceof ActionComposee)) return false;
+        if (!super.equals(obj)) return false;
         ActionComposee other = (ActionComposee) obj;
-        if (actions == null) {
-            if (other.actions != null)
-                return false;
-        } else if (!actions.equals(other.actions))
-            return false;
-        if (fractions == null) {
-            if (other.fractions != null)
-                return false;
-        } else if (!fractions.equals(other.fractions))
-            return false;
-        if (mapCours == null) {
-            if (other.mapCours != null)
-                return false;
-        } else if (!mapCours.equals(other.mapCours))
-            return false;
-        return true;
+        return actions.equals(other.actions)
+                && fractions.equals(other.fractions)
+                && mapCours.equals(other.mapCours);
     }
 
     @Override
     public float valeur(Jour j) {
-        float somme = 0;
+        float somme = DEFAULT_ACTION_VALUE;
         
         for (int i = 0; i < this.actions.size() ; i++) {
 
