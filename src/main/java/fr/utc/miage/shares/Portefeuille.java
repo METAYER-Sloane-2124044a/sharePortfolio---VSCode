@@ -15,12 +15,17 @@
  */
 package fr.utc.miage.shares;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Portefeuille {
 
     private double value;
+    private HashMap<Action, Integer> listeActions;
 
     public Portefeuille() {
         this.value = 0;
+        this.listeActions = new HashMap<>();
     }
 
     public double getValue() {
@@ -33,5 +38,13 @@ public class Portefeuille {
 
     public String VisuPortefeuille() {
         return "Valeur du portefeuille : " + this.value + " €";
+    }
+
+    public float getValueActions() {
+        float somme = 0;
+        for (Map.Entry<Action, Integer> entry : listeActions.entrySet()) {
+            somme += entry.getKey().currentValeur() * entry.getValue();
+        }
+        return somme;
     }
 }

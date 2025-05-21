@@ -15,6 +15,7 @@
  */
 package fr.utc.miage.shares;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
@@ -36,5 +37,11 @@ public class PortefeuilleTest {
         Portefeuille portefeuille = new Portefeuille();
         portefeuille.setValue(INITIAL_VALUE);
         assertEquals(INITIAL_VALUE, portefeuille.getValue());
+    }
+
+    @Test
+    void testGetValueActionsShouldWork() {
+        Portefeuille portefeuille = new Portefeuille();
+        assertDoesNotThrow(portefeuille::getValueActions);
     }
 }

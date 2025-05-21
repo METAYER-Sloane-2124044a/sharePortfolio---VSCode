@@ -97,7 +97,7 @@ class ActionTest {
         actionTest.enrgCours(janv20, VALEUR_ACTION_TEST);
 
         final String STR_ACTION_TEST = actionTest.visualiserAction();
-        final String STR_SHOULD_BE = "[" + FOO_SHARE1 + "] Valeur : " + (double)VALEUR_ACTION_TEST + "€";
+        final String STR_SHOULD_BE = "[" + FOO_SHARE1 + "] Valeur : " + (double) VALEUR_ACTION_TEST + "€";
 
         assertEquals(STR_SHOULD_BE, STR_ACTION_TEST);
     }
@@ -117,6 +117,11 @@ class ActionTest {
         public String visualiserAction() {
             // TODO Auto-generated method stub
             throw new UnsupportedOperationException("Unimplemented method 'visualiserAction'");
+        }
+
+        @Override
+        public float currentValeur() {
+            return 0.0F;
         }
     }
 
