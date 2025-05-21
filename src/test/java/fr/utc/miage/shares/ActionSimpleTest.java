@@ -16,6 +16,7 @@
 package fr.utc.miage.shares;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Assertions;
@@ -64,6 +65,45 @@ class ActionSimpleTest {
     }
 
     @Test
+    void testValeur_shouldReturnCorrectValueIfExists() {
+        ActionSimple action = new ActionSimple(FOO_SHARE1);
+        action.enrgCours(A_DAY, A_VALUE_FOR_ACTION);
+
+        float result = action.valeur(A_DAY);
+        assertEquals(A_VALUE_FOR_ACTION, result);
+    }
+
+    @Test
+    void testValeur_shouldReturnZeroIfNoCoursExists() {
+        ActionSimple action = new ActionSimple(FOO_SHARE1);
+
+        float result = action.valeur(A_DAY);
+        assertEquals(0.0F, result);
+    }
+
+    @Test
+    void testValeur_shouldReturnZeroEvenIfOtherCoursExist() {
+        ActionSimple action = new ActionSimple(FOO_SHARE1);
+        action.enrgCours(A_DAY, A_VALUE_FOR_ACTION);
+        Jour notRecorded = new Jour(2025, 101);
+
+        float result = action.valeur(notRecorded);
+        assertEquals(0.0F, result);
+    }
+
+    @Test
+    void testValeur_withMultipleCours_shouldReturnCorrectOne() {
+        ActionSimple action = new ActionSimple(FOO_SHARE1);
+        final Jour j2 = new Jour(2025, 101);
+        final float anotherValueForAction = 175.5F;
+        action.enrgCours(A_DAY, A_VALUE_FOR_ACTION);
+        action.enrgCours(j2, anotherValueForAction);
+
+        assertEquals(150.0f, action.valeur(A_DAY));
+        assertEquals(175.5f, action.valeur(j2));
+    }
+
+    @Test
     void testHashcodeEqualsObjectShouldBeSame() {
         ActionSimple a1 = new ActionSimple(FOO_SHARE1);
         ActionSimple a2 = new ActionSimple(FOO_SHARE1);
@@ -83,7 +123,8 @@ class ActionSimpleTest {
     @Test
     void testEquals_null_shouldReturnFalse() {
         ActionSimple a1 = new ActionSimple(FOO_SHARE1);
-        assertNotEquals(null, a1);
+        boolean result = a1.equals(null);
+        assertFalse(result);
     }
 
     @Test
