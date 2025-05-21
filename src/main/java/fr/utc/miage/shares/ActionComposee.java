@@ -105,7 +105,7 @@ public class ActionComposee extends Action{
 
     @Override
     public String visualiserAction() {
-        // TODO Auto-generated method stub
+            // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'visualiserAction'");
     }
     

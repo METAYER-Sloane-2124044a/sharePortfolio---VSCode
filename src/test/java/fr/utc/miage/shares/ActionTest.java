@@ -17,7 +17,6 @@ package fr.utc.miage.shares;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Assertions;
@@ -55,7 +54,7 @@ class ActionTest {
     void testEqualsWithSameObject() {
         final Action action = new ActionImpl(DEFAULT_ACTION_NAME1);
 
-        Assertions.assertTrue(action.equals(action));
+        Assertions.assertEquals(action, action);
     }
 
     @Test
@@ -63,7 +62,7 @@ class ActionTest {
         final Action action1 = new ActionImpl(DEFAULT_ACTION_NAME1);
         final Action action2 = new ActionImpl(DEFAULT_ACTION_NAME1);
 
-        Assertions.assertTrue(action1.equals(action2));
+        Assertions.assertEquals(action1, action2);
     }
 
     @Test
@@ -71,7 +70,7 @@ class ActionTest {
         final Action action1 = new ActionImpl(DEFAULT_ACTION_NAME1);
         final Action action2 = new ActionImpl(DEFAULT_ACTION_NAME2);
 
-        Assertions.assertFalse(action1.equals(action2));
+        Assertions.assertNotEquals(action1, action2);
     }
 
     @Test
@@ -79,7 +78,7 @@ class ActionTest {
         final Action action1 = new ActionImpl(DEFAULT_ACTION_NAME1);
         final Action action2 = null;
 
-        Assertions.assertFalse(action1.equals(action2));
+        Assertions.assertNotEquals(action1, action2);
     }
 
     @Test
@@ -87,7 +86,7 @@ class ActionTest {
         final Action action1 = new ActionImpl(DEFAULT_ACTION_NAME1);
         final Integer action2 = 0;
 
-        Assertions.assertFalse(action1.equals(action2));
+        Assertions.assertNotEquals(action1, action2);
     }
 
     @Test
@@ -122,8 +121,7 @@ class ActionTest {
 
         @Override
         public String visualiserAction() {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'visualiserAction'");
+            return "[" +this.getLibelle()+ "] Valeur : 0€";
         }
     }
 
@@ -178,19 +176,19 @@ class ActionTest {
             new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,actions1,fractions1);
         });
 
-        List<Float> fractions3_1 = List.of(0.5F,0.5F,2F);
+        List<Float> fractions3e1 = List.of(0.5F,0.5F,2F);
         Assertions.assertThrows(IllegalArgumentException.class,()->{
-            new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,DEFAULT_LIST_ACTIONS,fractions3_1);
+            new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,DEFAULT_LIST_ACTIONS,fractions3e1);
         });
 
-        List<Float> fractions3_2 = List.of(0.5F,0.5F,0.5F);
+        List<Float> fractions3e2 = List.of(0.5F,0.5F,0.5F);
         Assertions.assertThrows(IllegalArgumentException.class,()->{
-            new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,DEFAULT_LIST_ACTIONS,fractions3_2);
+            new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,DEFAULT_LIST_ACTIONS,fractions3e2);
         });
 
-        List<Float> fractions3_3 = List.of(0.5F,0.7F,-0.2F);
+        List<Float> fractions3e3 = List.of(0.5F,0.7F,-0.2F);
         Assertions.assertThrows(IllegalArgumentException.class,()->{
-            new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,DEFAULT_LIST_ACTIONS,fractions3_3);
+            new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,DEFAULT_LIST_ACTIONS,fractions3e3);
         });
 
     }

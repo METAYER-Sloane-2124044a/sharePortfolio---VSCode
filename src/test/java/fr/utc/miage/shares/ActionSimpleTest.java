@@ -15,13 +15,17 @@
  */
 package fr.utc.miage.shares;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 
-public class ActionSimpleTest {
+class ActionSimpleTest {
     
     private static final String FOO_SHARE1 = "Foo Share 1";
+    private static final String FOO_SHARE2 = "Foo Share 2";
 
     @Test
     void testEnregistrerCoursActionShouldWork(){
@@ -55,5 +59,82 @@ public class ActionSimpleTest {
             () -> Assertions.assertThrows(IllegalArgumentException.class, () ->  action.enrgCours(jour2, 0f)),  // <=0
             () -> Assertions.assertThrows(IllegalArgumentException.class, () ->  action.enrgCours(jour2, -5f))  // <= 0
         );
+    }
+
+    @Test
+    void testHashcodeEqualsObjectShouldBeSame() {
+        ActionSimple a1 = new ActionSimple(FOO_SHARE1);
+        ActionSimple a2 = new ActionSimple(FOO_SHARE2);
+
+        Jour j1 = new Jour(2025, 120);
+        a1.enrgCours(j1, 150.0f);
+        a2.enrgCours(j1, 150.0f);
+
+        assertEquals(a1.hashCode(), a2.hashCode());
+    }
+
+    @Test
+    void testEquals_sameInstance_shouldReturnTrue() {
+        ActionSimple a1 = new ActionSimple(FOO_SHARE1);
+        assertEquals(a1, a1);
+    }
+
+    @Test
+    void testEquals_null_shouldReturnFalse() {
+        ActionSimple a1 = new ActionSimple(FOO_SHARE1);
+        assertNotEquals(null, a1);
+    }
+
+    @Test
+    void testEquals_differentClass_shouldReturnFalse() {
+        ActionSimple a1 = new ActionSimple(FOO_SHARE1);
+        final String randomString = "some string"; 
+        assertNotEquals(a1, randomString);
+    }
+
+    @Test
+    void testEquals_differentLibelle_shouldReturnFalse() {
+        ActionSimple a1 = new ActionSimple(FOO_SHARE1);
+        ActionSimple a2 = new ActionSimple(FOO_SHARE2);
+
+        final Jour j = new Jour(2025, 100);
+        a1.enrgCours(j, 150.0f);
+        a2.enrgCours(j, 150.0f);
+
+        assertNotEquals(a1, a2);
+    }
+
+    @Test
+    void testEquals_differentDernierJour_shouldReturnFalse() {
+        ActionSimple a1 = new ActionSimple(FOO_SHARE1);
+        ActionSimple a2 = new ActionSimple(FOO_SHARE1);
+
+        a1.enrgCours(new Jour(2025, 100), 150.0f);
+        a2.enrgCours(new Jour(2025, 101), 150.0f);
+
+        assertNotEquals(a1, a2);
+    }
+
+    @Test
+    void testEquals_differentMapCours_shouldReturnFalse() {
+        ActionSimple a1 = new ActionSimple(FOO_SHARE1);
+        ActionSimple a2 = new ActionSimple(FOO_SHARE1);
+
+        a1.enrgCours(new Jour(2025, 100), 150.0f);
+        a2.enrgCours(new Jour(2025, 100), 200.0f);
+
+        assertNotEquals(a1, a2);
+    }
+
+    @Test
+    void testEquals_allFieldsSame_shouldReturnTrue() {
+        ActionSimple a1 = new ActionSimple(FOO_SHARE1);
+        ActionSimple a2 = new ActionSimple(FOO_SHARE1);
+
+        Jour j = new Jour(2025, 100);
+        a1.enrgCours(j, 150.0f);
+        a2.enrgCours(j, 150.0f);
+
+        assertEquals(a1, a2);
     }
 }
