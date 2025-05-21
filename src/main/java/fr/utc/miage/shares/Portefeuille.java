@@ -45,6 +45,8 @@ public class Portefeuille {
     public void retirerDesFonds(double valeur) {
         if (valeur < 0) {
             throw new IllegalArgumentException("Merci de saisir un montant supérieur à 0");
+        } else if (valeur > this.value) {
+            throw new IllegalArgumentException("Merci de saisir un montant inférieur à la valeur du portefeuille");
         }
         this.value = this.value - valeur;
     }
