@@ -28,21 +28,22 @@ class ActionSimpleTest {
     private static final String FOO_SHARE1 = "Foo Share 1";
     private static final String FOO_SHARE2 = "Foo Share 2";
     private static final Jour A_DAY = new Jour(2025,100);
+    private static final Jour ANOTHER_DAY = new Jour(2025, 101);
     private static final float A_VALUE_FOR_ACTION = 150.0F;
+    private static final float ANOTHER_VALUE_FOR_ACTION = 175.5F;
+
 
     @Test
     void testEnregistrerCoursActionShouldWork(){
         final ActionSimple action = new ActionSimple(FOO_SHARE1);
         final ActionSimple action2 = new ActionSimple(FOO_SHARE1);
 
-        final Jour jour = new Jour(2025, 1);
-        final Jour jour2 = new Jour(2025, 20);
 
-        action2.enrgCours(jour, 2);
+        action2.enrgCours(A_DAY, 2);
 
         Assertions.assertAll("Set",
-            () -> Assertions.assertDoesNotThrow(() ->  action.enrgCours(jour, 3f)), // Premier enregistrement 
-            () -> Assertions.assertDoesNotThrow(() ->  action2.enrgCours(jour2, 3f))  // Second enregistrement
+            () -> Assertions.assertDoesNotThrow(() ->  action.enrgCours(A_DAY, A_VALUE_FOR_ACTION)), // Premier enregistrement 
+            () -> Assertions.assertDoesNotThrow(() ->  action2.enrgCours(ANOTHER_DAY, A_VALUE_FOR_ACTION))  // Second enregistrement
         );
     }
 
@@ -85,22 +86,19 @@ class ActionSimpleTest {
     void testValeur_shouldReturnZeroEvenIfOtherCoursExist() {
         ActionSimple action = new ActionSimple(FOO_SHARE1);
         action.enrgCours(A_DAY, A_VALUE_FOR_ACTION);
-        Jour notRecorded = new Jour(2025, 101);
 
-        float result = action.valeur(notRecorded);
+        float result = action.valeur(ANOTHER_DAY);
         assertEquals(0.0F, result);
     }
 
     @Test
     void testValeur_withMultipleCours_shouldReturnCorrectOne() {
         ActionSimple action = new ActionSimple(FOO_SHARE1);
-        final Jour j2 = new Jour(2025, 101);
-        final float anotherValueForAction = 175.5F;
         action.enrgCours(A_DAY, A_VALUE_FOR_ACTION);
-        action.enrgCours(j2, anotherValueForAction);
+        action.enrgCours(ANOTHER_DAY, ANOTHER_VALUE_FOR_ACTION);
 
-        assertEquals(150.0f, action.valeur(A_DAY));
-        assertEquals(175.5f, action.valeur(j2));
+        assertEquals(A_VALUE_FOR_ACTION, action.valeur(A_DAY));
+        assertEquals(ANOTHER_VALUE_FOR_ACTION, action.valeur(ANOTHER_DAY));
     }
 
     @Test
@@ -149,9 +147,8 @@ class ActionSimpleTest {
         ActionSimple a1 = new ActionSimple(FOO_SHARE1);
         ActionSimple a2 = new ActionSimple(FOO_SHARE1);
 
-        final Jour anotherDay = new Jour(2025, 101);
         a1.enrgCours(A_DAY, A_VALUE_FOR_ACTION);
-        a2.enrgCours(anotherDay, A_VALUE_FOR_ACTION);
+        a2.enrgCours(ANOTHER_DAY, A_VALUE_FOR_ACTION);
 
         assertNotEquals(a1, a2);
     }
@@ -161,9 +158,8 @@ class ActionSimpleTest {
         ActionSimple a1 = new ActionSimple(FOO_SHARE1);
         ActionSimple a2 = new ActionSimple(FOO_SHARE1);
 
-        final float anotherValueForAction = 200.0F;
         a1.enrgCours(A_DAY, A_VALUE_FOR_ACTION);
-        a2.enrgCours(A_DAY, anotherValueForAction);
+        a2.enrgCours(A_DAY, ANOTHER_VALUE_FOR_ACTION);
 
         assertNotEquals(a1, a2);
     }
