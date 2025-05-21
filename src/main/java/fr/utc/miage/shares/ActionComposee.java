@@ -102,8 +102,12 @@ public class ActionComposee extends Action{
     public float valeur(Jour j) {
         float somme = 0;
         
-        for (ActionSimple a : this.actions) {
-            somme += a.valeur(j);
+        for (int i = 0; i < this.actions.size() ; i++) {
+
+            ActionSimple a = this.actions.get(i);
+            float proportion = this.fractions.get(i);
+
+            somme += proportion * a.valeur(j);
         }
 
         return somme;
@@ -114,7 +118,7 @@ public class ActionComposee extends Action{
         StringBuilder sb = new StringBuilder();
         Jour jourAffiche = null;
 
-        sb.append("\nNom Action Composée : ");
+        sb.append("Nom Action Composée : \n");
         sb.append(this.getLibelle());
 
         sb.append("\nComposition :");
@@ -123,8 +127,8 @@ public class ActionComposee extends Action{
             Float fractionAction = fractions.get(i);
 
             sb.append(fractionAction * 100);
-            sb.append("%");
-            
+            sb.append("%\n");
+
             sb.append(a.visualiserAction());
             sb.append("\n");
 
@@ -137,7 +141,7 @@ public class ActionComposee extends Action{
 
 
         if (jourAffiche != null) {
-            sb.append("\nValeur Totale : ");
+            sb.append("Valeur Totale : ");
             sb.append(this.valeur(jourAffiche));
         }
         

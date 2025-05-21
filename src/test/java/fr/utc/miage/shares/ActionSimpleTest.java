@@ -7,21 +7,27 @@ import org.junit.jupiter.api.Test;
 
 
 public class ActionSimpleTest {
-    
+    private static final float VALEUR_ACTION_TEST = 50F;
     private static final String DEFAULT_ACTION_NAME = "Foo Share 1";
+    private static final Jour DEFAULT_DAY1 = new Jour(2025, 1);
+    private static final Jour DEFAULT_DAY2 = new Jour(2025, 10);
+    private static final Jour DEFAULT_DAY3 = new Jour(2025, 20);
+
+    private static final float DEFAULT_ACTION_VALUE1 = 2F;
+    private static final float DEFAULT_ACTION_VALUE2 = 3F;
+
+    private static final float NEGATIVE_ACTION_VALUE = -2F;
 
     @Test
     void testEnregistrerCoursActionShouldWork(){
         final ActionSimple action = new ActionSimple(DEFAULT_ACTION_NAME);
         final ActionSimple action2 = new ActionSimple(DEFAULT_ACTION_NAME);
 
-        final Jour jour = new Jour(2025, 1 );
-
-        action2.enrgCours(jour, 2);
+        action2.enrgCours(DEFAULT_DAY1, DEFAULT_ACTION_VALUE1);
 
         Assertions.assertAll("Set",
-            () -> Assertions.assertDoesNotThrow(() ->  action.enrgCours(jour, 3f)), // Premier enregistrement 
-            () -> Assertions.assertDoesNotThrow(() ->  action2.enrgCours(jour2, 3f))  // Second enregistrement
+            () -> Assertions.assertDoesNotThrow(() ->  action.enrgCours(DEFAULT_DAY1, DEFAULT_ACTION_VALUE2)), // Premier enregistrement 
+            () -> Assertions.assertDoesNotThrow(() ->  action2.enrgCours(DEFAULT_DAY2, DEFAULT_ACTION_VALUE2))  // Second enregistrement
         );
     }
 
@@ -29,17 +35,13 @@ public class ActionSimpleTest {
     void testEnregistrerCoursActionWithIncorrectParametersShouldThrowException(){
         final ActionSimple action = new ActionSimple(DEFAULT_ACTION_NAME);
 
-        final Jour jour0 = new Jour(2024, 1);
-        final Jour jour1 = new Jour(2025, 1);
-        final Jour jour2 = new Jour(2025, 5);
-
-        action.enrgCours(jour1, 2);
+        action.enrgCours(DEFAULT_DAY2, DEFAULT_ACTION_VALUE1);
 
         Assertions.assertAll("Set",
-            () -> Assertions.assertThrows(IllegalArgumentException.class, () -> action.enrgCours(jour1, 3f)),  // Même jour
-            () -> Assertions.assertThrows(IllegalArgumentException.class, () ->  action.enrgCours(jour0, 3f)),  // Jour avant dernier jour
-            () -> Assertions.assertThrows(IllegalArgumentException.class, () ->  action.enrgCours(jour2, 0f)),  // <=0
-            () -> Assertions.assertThrows(IllegalArgumentException.class, () ->  action.enrgCours(jour2, -5f))  // <= 0
+            () -> Assertions.assertThrows(IllegalArgumentException.class, () -> action.enrgCours(DEFAULT_DAY2, DEFAULT_ACTION_VALUE2)),  // Même jour
+            () -> Assertions.assertThrows(IllegalArgumentException.class, () ->  action.enrgCours(DEFAULT_DAY1, DEFAULT_ACTION_VALUE2)),  // Jour avant dernier jour
+            () -> Assertions.assertThrows(IllegalArgumentException.class, () ->  action.enrgCours(DEFAULT_DAY3, 0f)),  // <=0
+            () -> Assertions.assertThrows(IllegalArgumentException.class, () ->  action.enrgCours(DEFAULT_DAY3, NEGATIVE_ACTION_VALUE))  // <= 0
         );
     }
 
@@ -64,9 +66,9 @@ public class ActionSimpleTest {
     @Test
     void testVisualiserActionSimpleShouldWork() {
         final ActionSimple actionTest = new ActionSimple(DEFAULT_ACTION_NAME);
-        final Jour janv20 = new Jour(2025, 20);
-        final float VALEUR_ACTION_TEST = 50F;
-        actionTest.enrgCours(janv20, VALEUR_ACTION_TEST);
+
+
+        actionTest.enrgCours(DEFAULT_DAY1, VALEUR_ACTION_TEST);
 
         final String STR_ACTION_TEST = actionTest.visualiserAction();
         final String STR_SHOULD_BE = "[" + DEFAULT_ACTION_NAME + "] Valeur : " + (double)VALEUR_ACTION_TEST + "€";
