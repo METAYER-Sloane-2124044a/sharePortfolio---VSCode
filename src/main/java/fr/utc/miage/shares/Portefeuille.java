@@ -21,7 +21,7 @@ import java.util.Map;
 public class Portefeuille {
 
     private double value;
-    private HashMap<Action, Integer> listeActions;
+    private Map<Action, Integer> listeActions;
 
     public Portefeuille() {
         this.value = 0;
@@ -30,6 +30,10 @@ public class Portefeuille {
 
     public double getValue() {
         return value;
+    }
+
+    public Map<Action, Integer> getListeActions() {
+        return listeActions;
     }
 
     public void setValue(double value) {
@@ -55,4 +59,18 @@ public class Portefeuille {
         this.value = this.value + valeur;
     }
 
+    public void vendreActions(Action action, int quantity) {
+        if(!listeActions.containsKey(action)) {
+            throw new IllegalArgumentException("Vous essayez de vendre une action qui n'est pas présente dans votre portefeuille.");
+        }
+        if(listeActions.get(action) < quantity) {
+            throw new IllegalArgumentException("Vous ne pouvez pas vendre plus d'action que ce que vous avez dans votre portefeuille");
+        }
+        if(listeActions.get(action) == quantity) {
+            listeActions.remove(action);
+        } else {
+            listeActions.replace(action, listeActions.get(action) - quantity);
+        }
+        this.ajouterDesFonds(quantity*action.currentValeur());
+    }
 }

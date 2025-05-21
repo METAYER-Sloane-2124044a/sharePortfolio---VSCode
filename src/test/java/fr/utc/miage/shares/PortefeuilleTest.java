@@ -17,6 +17,7 @@ package fr.utc.miage.shares;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,10 @@ class PortefeuilleTest {
     private static final double INITIAL_VALUE = 500.0;
     private static final double ADD_VALUE = 100.0;
     private static final double ADD_VALUE_NEGATIF = -100.0;
+    private static final float DEFAULT_ACTION_VALUE = 100.0F;
+    private static final String DEFAULT_ACTION_NAME = "Action Simple Test";
+    private static final Jour A_DAY = new Jour(2025, 100);
+    private static final ActionSimple A_SIMPLE_ACTION = new ActionSimple(DEFAULT_ACTION_NAME);
 
     @Test
     void testVisuPortefeuille() {
@@ -55,5 +60,18 @@ class PortefeuilleTest {
         portefeuille.setValue(INITIAL_VALUE);
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> portefeuille.ajouterDesFonds(ADD_VALUE_NEGATIF));
+    }
+
+    @Test
+    void testVendreAction_actionPasPresentDansPortefeuille_shouldRaiseException() {
+        Portefeuille portefeuille = new Portefeuille();
+        assertThrows(IllegalArgumentException.class, () -> portefeuille.vendreActions(A_SIMPLE_ACTION, 1));
+    }
+
+    @Test
+    void testVendreAction_vendrePlusDActionsQueCeQuIlYADansLePortefeuille_shouldRaiseException() {
+        Portefeuille portefeuille = new Portefeuille();
+        portefeuille.getListeActions().put(A_SIMPLE_ACTION, 1);
+        assertThrows(IllegalArgumentException.class, () -> portefeuille.vendreActions(A_SIMPLE_ACTION, 2));
     }
 }
