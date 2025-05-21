@@ -100,7 +100,13 @@ public class ActionComposee extends Action{
 
     @Override
     public float valeur(Jour j) {
-        throw new UnsupportedOperationException("Il faut qu'on la code sur une autre US");
+        float somme = 0;
+        
+        for (ActionSimple a : this.actions) {
+            somme += a.valeur(j);
+        }
+
+        return somme;
     }
 
     @Override
