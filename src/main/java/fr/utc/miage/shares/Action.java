@@ -42,6 +42,13 @@ public abstract class Action {
      */
     protected Action(final String libelle) {
         this.libelle = libelle;
+        if (libelle==null){
+            throw new IllegalArgumentException("L'action doit avoir un libelle non nul");
+        }
+        if(libelle.isEmpty() || libelle.isBlank()){
+            throw new IllegalArgumentException("Libelle non valide pour l'action");
+
+        }
     }
 
     /**

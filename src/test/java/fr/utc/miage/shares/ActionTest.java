@@ -15,6 +15,8 @@
  */
 package fr.utc.miage.shares;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -23,53 +25,58 @@ import org.junit.jupiter.api.Test;
 
 class ActionTest {
 
-    private static final String FOO_SHARE1 = "Foo Share 1";
-    private static final String FOO_SHARE2 = "Foo Share 2";
+    private static final String DEFAULT_ACTION_NAME1 = "Action A";
+    private static final String DEFAULT_ACTION_NAME2 = "Action B";
+    private static final String DEFAULT_ACTION_NAME3 = "Action C";
+    
+    private static final String DEFAULT_COMPOSED_ACTION_NAME = "Action composée Test";
 
+    private static final List<ActionSimple> DEFAULT_LIST_ACTIONS = List.of(new ActionSimple(DEFAULT_ACTION_NAME1), new ActionSimple(DEFAULT_ACTION_NAME2), new ActionSimple(DEFAULT_ACTION_NAME3));
+    private static final List<Float> DEFAULT_LIST_FRACTIONS = List.of(0.3F, 0.3F,0.4F);
     @Test
     void testGetLibelleReturnConstructorParameter() {
-        final Action action = new ActionImpl(FOO_SHARE1);
+        final Action action = new ActionImpl(DEFAULT_ACTION_NAME1);
         final String result = action.getLibelle();
 
-        Assertions.assertEquals(FOO_SHARE1, result,
+        Assertions.assertEquals(DEFAULT_ACTION_NAME1, result,
                 "Property Libelle value should be the same as the parameter used for construction");
     }
 
     @Test
     void testToStringReturnConstructorParameter() {
-        final Action action = new ActionImpl(FOO_SHARE1);
+        final Action action = new ActionImpl(DEFAULT_ACTION_NAME1);
         final String result = action.toString();
 
-        Assertions.assertEquals(FOO_SHARE1, result,
+        Assertions.assertEquals(DEFAULT_ACTION_NAME1, result,
                 "Property Libelle value should be the same as the parameter used for construction");
     }
 
     @Test
     void testEqualsWithSameObject() {
-        final Action action = new ActionImpl(FOO_SHARE1);
+        final Action action = new ActionImpl(DEFAULT_ACTION_NAME1);
 
         Assertions.assertTrue(action.equals(action));
     }
 
     @Test
     void testEqualsWithSimilarObject() {
-        final Action action1 = new ActionImpl(FOO_SHARE1);
-        final Action action2 = new ActionImpl(FOO_SHARE1);
+        final Action action1 = new ActionImpl(DEFAULT_ACTION_NAME1);
+        final Action action2 = new ActionImpl(DEFAULT_ACTION_NAME1);
 
         Assertions.assertTrue(action1.equals(action2));
     }
 
     @Test
     void testEqualsWithDifferentObject() {
-        final Action action1 = new ActionImpl(FOO_SHARE1);
-        final Action action2 = new ActionImpl(FOO_SHARE2);
+        final Action action1 = new ActionImpl(DEFAULT_ACTION_NAME1);
+        final Action action2 = new ActionImpl(DEFAULT_ACTION_NAME2);
 
         Assertions.assertFalse(action1.equals(action2));
     }
 
     @Test
     void testEqualsWithNullObject() {
-        final Action action1 = new ActionImpl(FOO_SHARE1);
+        final Action action1 = new ActionImpl(DEFAULT_ACTION_NAME1);
         final Action action2 = null;
 
         Assertions.assertFalse(action1.equals(action2));
@@ -77,7 +84,7 @@ class ActionTest {
 
     @Test
     void testEqualsWithObjectFromOtherClass() {
-        final Action action1 = new ActionImpl(FOO_SHARE1);
+        final Action action1 = new ActionImpl(DEFAULT_ACTION_NAME1);
         final Integer action2 = 0;
 
         Assertions.assertFalse(action1.equals(action2));
@@ -85,19 +92,23 @@ class ActionTest {
 
     @Test
     void testHashCode() {
-        final Action action = new ActionImpl(FOO_SHARE1);
+        final Action action = new ActionImpl(DEFAULT_ACTION_NAME1);
         Assertions.assertDoesNotThrow(action::hashCode, "hashcode must always provide a value");
     }
 
     @Test
     void testVisualiserActionSimpleShouldBeWork() {
-        final ActionSimple actionTest = new ActionSimple(FOO_SHARE1);
+        final ActionSimple actionTest = new ActionSimple(DEFAULT_ACTION_NAME1);
         final Jour janv20 = new Jour(2025, 20);
         final float VALEUR_ACTION_TEST = 50F;
         actionTest.enrgCours(janv20, VALEUR_ACTION_TEST);
 
         final String STR_ACTION_TEST = actionTest.visualiserAction();
+<<<<<<< HEAD
         final String STR_SHOULD_BE = "[" + FOO_SHARE1 + "] Valeur : " + (double) VALEUR_ACTION_TEST + "€";
+=======
+        final String STR_SHOULD_BE = "[" + DEFAULT_ACTION_NAME1 + "] Valeur : " + (double)VALEUR_ACTION_TEST + "€";
+>>>>>>> 451b9b7fc8ecb4957c2614ff1e87d96983c2a9ff
 
         assertEquals(STR_SHOULD_BE, STR_ACTION_TEST);
     }
@@ -125,4 +136,71 @@ class ActionTest {
         }
     }
 
+    @Test
+    void testCreationActionSimpleShouldWork(){
+        Assertions.assertDoesNotThrow(()->{
+            new ActionSimple(DEFAULT_ACTION_NAME3);
+        });
+    }
+
+    @Test
+    void testCreationActionComposeeShouldWork() {
+        Assertions.assertDoesNotThrow(() -> {
+            new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS);
+        });
+    }
+
+    @Test
+    void testCreationActionSimpleShouldNotWork() {
+        Assertions.assertThrows(IllegalArgumentException.class,()->{
+            new ActionSimple("");
+        });
+
+        Assertions.assertThrows(IllegalArgumentException.class,()->{
+            new ActionSimple(null);
+        });
+    }
+
+    @Test
+    void testCreationActionComposeeShouldNotWork() {
+        Assertions.assertThrows(IllegalArgumentException.class,()->{
+            new ActionComposee("",DEFAULT_LIST_ACTIONS,DEFAULT_LIST_FRACTIONS);
+        });
+
+        Assertions.assertThrows(IllegalArgumentException.class,()->{
+            new ActionComposee(null,DEFAULT_LIST_ACTIONS,DEFAULT_LIST_FRACTIONS);
+        });
+
+        List<ActionSimple> actions2 = List.of(new ActionSimple(DEFAULT_ACTION_NAME1),new ActionSimple(DEFAULT_ACTION_NAME2));
+        Assertions.assertThrows(IllegalArgumentException.class,()->{
+        new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,actions2,DEFAULT_LIST_FRACTIONS);
+        });
+
+        List<Float> fractions2 = List.of(0.5F,0.5F);
+        Assertions.assertThrows(IllegalArgumentException.class,()->{
+            new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,DEFAULT_LIST_ACTIONS,fractions2);
+        });
+
+        List<ActionSimple> actions1 = List.of(new ActionSimple(DEFAULT_ACTION_NAME1));
+        List<Float> fractions1 = List.of(1F);
+        Assertions.assertThrows(IllegalArgumentException.class,()->{
+            new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,actions1,fractions1);
+        });
+
+        List<Float> fractions3_1 = List.of(0.5F,0.5F,2F);
+        Assertions.assertThrows(IllegalArgumentException.class,()->{
+            new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,DEFAULT_LIST_ACTIONS,fractions3_1);
+        });
+
+        List<Float> fractions3_2 = List.of(0.5F,0.5F,0.5F);
+        Assertions.assertThrows(IllegalArgumentException.class,()->{
+            new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,DEFAULT_LIST_ACTIONS,fractions3_2);
+        });
+
+        List<Float> fractions3_3 = List.of(0.5F,0.7F,-0.2F);
+        Assertions.assertThrows(IllegalArgumentException.class,()->{
+            new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,DEFAULT_LIST_ACTIONS,fractions3_3);
+        });
+
+    }
 }

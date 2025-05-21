@@ -18,30 +18,44 @@ package fr.utc.miage.shares;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class PortefeuilleTest {
+class PortefeuilleTest {
 
     private static final String PORTFOLIO_VALUE = "Valeur du portefeuille : 500.0 €";
     private static final double INITIAL_VALUE = 500.0;
+    private static final double ADD_VALUE = 100.0;
+    private static final double ADD_VALUE_NEGATIF = - 100.0;
 
     @Test
     void testVisuPortefeuille() {
         Portefeuille portefeuille = new Portefeuille();
         portefeuille.setValue(INITIAL_VALUE);
-        assertEquals(PORTFOLIO_VALUE, portefeuille.VisuPortefeuille());
+        assertEquals(PORTFOLIO_VALUE, portefeuille.visuPortefeuille());
     }
 
     @Test
-    void testGetValue() {
+    void testAjouterDesFondsPositif(){
         Portefeuille portefeuille = new Portefeuille();
         portefeuille.setValue(INITIAL_VALUE);
-        assertEquals(INITIAL_VALUE, portefeuille.getValue());
+        portefeuille.ajouterDesFonds(ADD_VALUE);
+        assertEquals(portefeuille.getValue(), INITIAL_VALUE+ ADD_VALUE);
     }
 
     @Test
+<<<<<<< HEAD
     void testGetValueActionsShouldWork() {
         Portefeuille portefeuille = new Portefeuille();
         assertDoesNotThrow(portefeuille::getValueActions);
     }
 }
+=======
+    void testAjouterDesFondsNegatif(){
+        Portefeuille portefeuille = new Portefeuille();
+        portefeuille.setValue(INITIAL_VALUE);
+        Assertions.assertThrows(IllegalArgumentException.class, 
+            () -> portefeuille.ajouterDesFonds(ADD_VALUE_NEGATIF));
+    }  
+}
+>>>>>>> 451b9b7fc8ecb4957c2614ff1e87d96983c2a9ff
