@@ -100,13 +100,36 @@ public class ActionComposee extends Action{
 
     @Override
     public float valeur(Jour j) {
-       return this.mapCours.getOrDefault(j, Float.valueOf(DEFAULT_ACTION_VALUE));
+        throw new UnsupportedOperationException("Il faut qu'on la code sur une autre US");
     }
 
     @Override
     public String visualiserAction() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visualiserAction'");
+        StringBuilder sb = new StringBuilder();
+        Jour jourAffiche = null;
+
+        sb.append("\nNom Action Composée : ");
+        sb.append(this.getLibelle());
+
+        sb.append("\nComposition :");
+        for (ActionSimple a : this.actions){
+            sb.append(a.visualiserAction());
+            sb.append("\n");
+
+            Jour jourModifAction = a.getDernierJourModif();
+
+            if (jourAffiche == null || jourAffiche.compareTo(jourModifAction) > 0) {
+                jourAffiche = jourModifAction;
+            }
+        }
+
+
+        if (jourAffiche != null) {
+            sb.append("\nValeur Totale : ");
+            sb.append(this.valeur(jourAffiche));
+        }
+        
+        return sb.toString();
     }
     
 }
