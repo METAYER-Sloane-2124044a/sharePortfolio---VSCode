@@ -66,6 +66,10 @@ public class ActionSimple extends Action {
         }
     }
 
+    public Jour getDernierJourModif() {
+        return dernierJourModif;
+    }
+
 
 
 }
