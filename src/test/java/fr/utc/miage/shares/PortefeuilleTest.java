@@ -57,4 +57,12 @@ class PortefeuilleTest {
         portefeuille.retirerDesFonds(ADD_VALUE);
         assertEquals(portefeuille.getValue(), INITIAL_VALUE - ADD_VALUE);
     }
+
+    @Test
+    void testRetirerDesFondsNegatif() {
+        Portefeuille portefeuille = new Portefeuille();
+        portefeuille.setValue(INITIAL_VALUE);
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> portefeuille.retirerDesFonds(ADD_VALUE_NEGATIF));
+    }
 }
