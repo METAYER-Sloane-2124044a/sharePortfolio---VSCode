@@ -64,7 +64,7 @@ class ActionSimpleTest {
     @Test
     void testHashcodeEqualsObjectShouldBeSame() {
         ActionSimple a1 = new ActionSimple(FOO_SHARE1);
-        ActionSimple a2 = new ActionSimple(FOO_SHARE2);
+        ActionSimple a2 = new ActionSimple(FOO_SHARE1);
 
         Jour j1 = new Jour(2025, 120);
         a1.enrgCours(j1, 150.0f);
