@@ -86,4 +86,11 @@ class ActionComposeeTest {
         });
 
     }
+
+    @Test
+    void testVisualiserActionComposeeShouldWork() {
+        ActionComposee actionComp = new ActionComposee(DEFAULT_ACTION_NAME1, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS);
+        
+        Assertions.assertNotEquals("", actionComp.visualiserAction());
+    }
 }
