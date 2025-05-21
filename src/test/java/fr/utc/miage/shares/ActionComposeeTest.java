@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Test;
 
 class ActionComposeeTest {
 
-
     private static final String DEFAULT_ACTION_NAME1 = "Action A";
     private static final String DEFAULT_ACTION_NAME2 = "Action B";
     private static final String DEFAULT_ACTION_NAME3 = "Action C";
@@ -34,8 +33,16 @@ class ActionComposeeTest {
     private static final String DEFAULT_COMPOSED_ACTION_NAME = "Action composée Test";
 
     private static final List<ActionSimple> DEFAULT_LIST_ACTIONS = List.of(new ActionSimple(DEFAULT_ACTION_NAME1), new ActionSimple(DEFAULT_ACTION_NAME2), new ActionSimple(DEFAULT_ACTION_NAME3));
+    private static final List<ActionSimple> ACTION_LIST_WITH_1_ACTION = List.of(new ActionSimple(DEFAULT_ACTION_NAME1));
+    private static final List<ActionSimple> ACTION_LIST_WITH_2_ACTIONS = List.of(new ActionSimple(DEFAULT_ACTION_NAME1),new ActionSimple(DEFAULT_ACTION_NAME2));
+    
     private static final List<Float> DEFAULT_LIST_FRACTIONS = List.of(0.3F, 0.3F,0.4F);
-
+    private static final List<Float> FRACTION_LIST_WITH_ONE_FRACTION = List.of(1F);
+    private static final List<Float> FRACTION_LIST_WITH_2_FRACTIONS = List.of(0.5F,0.5F);
+    private static final List<Float> FRACTION_LIST_WITH_ONE_FRACTION_ABOVE_1 = List.of(0.5F,0.5F,2F);
+    private static final List<Float> FRACTION_LIST_WITH_SUM_ABOVE_1 = List.of(0.5F,0.5F,0.5F);
+    private static final List<Float> FRACTION_LIST_WITH_SUM_EQUAL_ONE_BUT_INVALID_FRACTION = List.of(0.5F,0.7F,-0.2F);
+        
     @Test
     void testCreationActionComposeeShouldWork() {
         Assertions.assertDoesNotThrow(() -> {
@@ -54,35 +61,30 @@ class ActionComposeeTest {
             new ActionComposee(null,DEFAULT_LIST_ACTIONS,DEFAULT_LIST_FRACTIONS);
         });
 
-        List<ActionSimple> actions2 = List.of(new ActionSimple(DEFAULT_ACTION_NAME1),new ActionSimple(DEFAULT_ACTION_NAME2));
+        
         Assertions.assertThrows(IllegalArgumentException.class,()->{
-        new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,actions2,DEFAULT_LIST_FRACTIONS);
+        new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,ACTION_LIST_WITH_2_ACTIONS,DEFAULT_LIST_FRACTIONS);
         });
 
-        List<Float> fractions2 = List.of(0.5F,0.5F);
         Assertions.assertThrows(IllegalArgumentException.class,()->{
-            new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,DEFAULT_LIST_ACTIONS,fractions2);
+            new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,DEFAULT_LIST_ACTIONS,FRACTION_LIST_WITH_2_FRACTIONS);
         });
 
-        List<ActionSimple> actions1 = List.of(new ActionSimple(DEFAULT_ACTION_NAME1));
-        List<Float> fractions1 = List.of(1F);
         Assertions.assertThrows(IllegalArgumentException.class,()->{
-            new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,actions1,fractions1);
+            new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,ACTION_LIST_WITH_1_ACTION,FRACTION_LIST_WITH_ONE_FRACTION);
         });
 
-        List<Float> fractions3_1 = List.of(0.5F,0.5F,2F);
         Assertions.assertThrows(IllegalArgumentException.class,()->{
-            new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,DEFAULT_LIST_ACTIONS,fractions3_1);
+            new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,DEFAULT_LIST_ACTIONS,FRACTION_LIST_WITH_ONE_FRACTION_ABOVE_1);
         });
 
-        List<Float> fractions3_2 = List.of(0.5F,0.5F,0.5F);
+        
         Assertions.assertThrows(IllegalArgumentException.class,()->{
-            new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,DEFAULT_LIST_ACTIONS,fractions3_2);
+            new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,DEFAULT_LIST_ACTIONS,FRACTION_LIST_WITH_SUM_ABOVE_1);
         });
 
-        List<Float> fractions3_3 = List.of(0.5F,0.7F,-0.2F);
         Assertions.assertThrows(IllegalArgumentException.class,()->{
-            new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,DEFAULT_LIST_ACTIONS,fractions3_3);
+            new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME,DEFAULT_LIST_ACTIONS,FRACTION_LIST_WITH_SUM_EQUAL_ONE_BUT_INVALID_FRACTION);
         });
 
     }
