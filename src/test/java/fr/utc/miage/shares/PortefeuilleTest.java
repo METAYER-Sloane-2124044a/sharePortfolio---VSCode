@@ -28,13 +28,10 @@ class PortefeuilleTest {
     private static final double INITIAL_VALUE = 500.0;
     private static final double ADD_VALUE = 100.0;
     private static final double ADD_VALUE_NEGATIF = -100.0;
-    private static final ActionSimple ACTION_TEST = new ActionSimple("ActionTest");
+    private static final ActionSimple ACTION_TEST_SIMPLE = new ActionSimple("ActionTest");
     private static final int ACTION_NB = 10;
-    private static final double ACTION_VALUE = 10.0;
-
-
-
-
+    private static final float ACTION_VALUE = 10.0f;
+    private static final Jour ACTION_JOUR = new Jour(2023, 101);
 
     @Test
     void testVisuPortefeuille() {
@@ -84,19 +81,31 @@ class PortefeuilleTest {
     }
 
     @Test
-    void testAcheterAction(){
+    void testAcheterUneActionSimple() {
         Portefeuille portefeuille = new Portefeuille();
-        portefeuille.acheterAction(ACTION_TEST,ACTION_NB);
-        assertEquals(ACTION_NB, portefeuille.getListeAction().get(ACTION_TEST));
+        portefeuille.setValue(INITIAL_VALUE);
+        ACTION_TEST_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
+        portefeuille.acheterAction(ACTION_TEST_SIMPLE, ACTION_NB, ACTION_JOUR);
+        assertEquals(ACTION_NB, portefeuille.getListeAction().get(ACTION_TEST_SIMPLE));
         double finalValue = INITIAL_VALUE - (ACTION_NB * ACTION_VALUE);
         assertEquals(finalValue, portefeuille.getValue());
     }
 
     @Test
-    void testAcheterMemeAction(){
+    void testAcheterMemeActionSimple() {
         Portefeuille portefeuille = new Portefeuille();
-        portefeuille.acheterAction(ACTION_TEST,ACTION_NB);
-        portefeuille.acheterAction(ACTION_TEST,ACTION_NB);
-        assertEquals(2*ACTION_NB, portefeuille.getListeAction().get(ACTION_TEST));
+        portefeuille.setValue(INITIAL_VALUE);
+        ACTION_TEST_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
+        portefeuille.acheterAction(ACTION_TEST_SIMPLE, ACTION_NB, ACTION_JOUR);
+        portefeuille.acheterAction(ACTION_TEST_SIMPLE, ACTION_NB, ACTION_JOUR);
+        assertEquals(2 * ACTION_NB, portefeuille.getListeAction().get(ACTION_TEST_SIMPLE));
+        double finalValue = INITIAL_VALUE - (2 * ACTION_NB * ACTION_VALUE);
+        assertEquals(finalValue, portefeuille.getValue());
     }
+
+    // TODO Acheter plusieurs actions différentes
+    // TODO Acheter une action composée
+    // TODO Acheter plusieurs fois la même action composée
+    // TODO Acheter plusieurs actions différentes et composées
+
 }

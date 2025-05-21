@@ -20,7 +20,7 @@ import java.util.HashMap;
 public class Portefeuille {
 
     private double value;
-    private HashMap<Action,Integer> listeAction = new HashMap<>();
+    private HashMap<Action, Integer> listeAction = new HashMap<>();
 
     public Portefeuille() {
         this.value = 0;
@@ -60,8 +60,8 @@ public class Portefeuille {
 
     public void acheterAction(Action action, int nb, Jour j) {
         int totalNb = nb;
-        if(listeAction.get(action) != null) {
-            totalNb += listeAction.get(action); 
+        if (listeAction.get(action) != null) {
+            totalNb += listeAction.get(action);
         }
         listeAction.put(action, totalNb);
         this.retirerDesFonds(action.valeur(j) * nb);
