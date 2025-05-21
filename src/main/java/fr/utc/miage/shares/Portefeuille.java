@@ -36,10 +36,14 @@ public class Portefeuille {
     }
 
     public void ajouterDesFonds(double valeur) {
-        if(valeur < 0){
+        if (valeur < 0) {
             throw new IllegalArgumentException("Merci de saisir un montant supérieur à 0");
         }
         this.value = this.value + valeur;
+    }
+
+    public void retirerDesFonds(double valeur) {
+        this.value = this.value - valeur;
     }
 
 }
