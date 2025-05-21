@@ -30,6 +30,8 @@ class ActionComposeeTest {
     private static final String DEFAULT_ACTION_NAME2 = "Action B";
     private static final String DEFAULT_ACTION_NAME3 = "Action C";
     
+    private static final float DEFAULT_ACTION_VALUE1 = 10F;
+
     private static final String DEFAULT_COMPOSED_ACTION_NAME = "Action composée Test";
 
     private static final List<ActionSimple> DEFAULT_LIST_ACTIONS = List.of(new ActionSimple(DEFAULT_ACTION_NAME1), new ActionSimple(DEFAULT_ACTION_NAME2), new ActionSimple(DEFAULT_ACTION_NAME3));
@@ -43,6 +45,9 @@ class ActionComposeeTest {
     private static final List<Float> FRACTION_LIST_WITH_SUM_ABOVE_1 = List.of(0.5F,0.5F,0.5F);
     private static final List<Float> FRACTION_LIST_WITH_SUM_EQUAL_ONE_BUT_INVALID_FRACTION = List.of(0.5F,0.7F,-0.2F);
         
+    private static final Jour DEFAULT_DAY1 = new Jour(2025, 1);
+    private static final Jour DEFAULT_DAY2 = new Jour(2025, 10);
+
     @Test
     void testCreationActionComposeeShouldWork() {
         Assertions.assertDoesNotThrow(() -> {
@@ -94,5 +99,18 @@ class ActionComposeeTest {
         ActionComposee actionComp = new ActionComposee(DEFAULT_ACTION_NAME1, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS);
         
         Assertions.assertNotEquals("", actionComp.visualiserAction());
+
+        ActionSimple action1 = new ActionSimple(DEFAULT_ACTION_NAME1);
+        action1.enrgCours(DEFAULT_DAY1, DEFAULT_ACTION_VALUE1);
+
+        ActionSimple action2 = new ActionSimple(DEFAULT_ACTION_NAME2);
+        action2.enrgCours(DEFAULT_DAY2, DEFAULT_ACTION_VALUE1);
+
+        ActionComposee actionCompJour = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME, List.of(action1, action2), FRACTION_LIST_WITH_2_FRACTIONS);
+    
+        Assertions.assertNotEquals("", actionCompJour.visualiserAction());
+
     }
+
+
 }

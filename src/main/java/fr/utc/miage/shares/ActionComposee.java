@@ -134,16 +134,16 @@ public class ActionComposee extends Action{
 
             Jour jourModifAction = a.getDernierJourModif();
 
-            if (jourAffiche == null || jourAffiche.compareTo(jourModifAction) > 0) {
+            if (jourAffiche == null || jourAffiche.compareTo(jourModifAction) < 0) {
                 jourAffiche = jourModifAction;
             }
         }
 
 
-        if (jourAffiche != null) {
-            sb.append("Valeur Totale : ");
-            sb.append(this.valeur(jourAffiche));
-        }
+
+        sb.append("Valeur Totale : ");
+        sb.append(this.valeur(jourAffiche));
+        
         
         return sb.toString();
     }
