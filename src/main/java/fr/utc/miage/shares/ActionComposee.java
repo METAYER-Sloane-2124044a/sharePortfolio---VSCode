@@ -118,7 +118,13 @@ public class ActionComposee extends Action{
         sb.append(this.getLibelle());
 
         sb.append("\nComposition :");
-        for (ActionSimple a : this.actions){
+        for (int i = 0; i < actions.size(); i++){
+            ActionSimple a = actions.get(i);
+            Float fractionAction = fractions.get(i);
+
+            sb.append(fractionAction * 100);
+            sb.append("%");
+            
             sb.append(a.visualiserAction());
             sb.append("\n");
 
