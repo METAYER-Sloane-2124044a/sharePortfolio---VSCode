@@ -171,4 +171,31 @@ class PortefeuilleTest {
         assertEquals(finalValue, portefeuille.getValue());
     }
 
+    @Test
+    void testAcheterActionAvecManqueDeSolde() {
+        Portefeuille portefeuille = new Portefeuille();
+        portefeuille.setValue(INITIAL_VALUE);
+        ACTION_TEST_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> portefeuille.acheterAction(ACTION_TEST_SIMPLE, 1000, ACTION_JOUR));
+    }
+
+    @Test
+    void testAcheterActionAvecNbNegatif() {
+        Portefeuille portefeuille = new Portefeuille();
+        portefeuille.setValue(INITIAL_VALUE);
+        ACTION_TEST_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> portefeuille.acheterAction(ACTION_TEST_SIMPLE, -1, ACTION_JOUR));
+    }
+
+    @Test
+    void testAcheterActionAvecNbZero() {
+        Portefeuille portefeuille = new Portefeuille();
+        portefeuille.setValue(INITIAL_VALUE);
+        ACTION_TEST_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> portefeuille.acheterAction(ACTION_TEST_SIMPLE, 0, ACTION_JOUR));
+    }
+
 }

@@ -59,6 +59,11 @@ public class Portefeuille {
     }
 
     public void acheterAction(Action action, int nb, Jour j) {
+        if (nb <= 0) {
+            throw new IllegalArgumentException("Merci de saisir un nombre d'actions supérieur à 0");
+        } else if (action.valeur(j) * nb > this.value) {
+            throw new IllegalArgumentException("Merci de saisir un montant inférieur à la valeur du portefeuille");
+        }
         int totalNb = nb;
         if (listeAction.get(action) != null) {
             totalNb += listeAction.get(action);
