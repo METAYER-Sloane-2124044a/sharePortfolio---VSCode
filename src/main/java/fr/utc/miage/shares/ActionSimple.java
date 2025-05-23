@@ -41,21 +41,19 @@ public class ActionSimple extends Action {
 
     // enrg possible si pas de cours pour ce jour
     public void enrgCours(final Jour j, final float v) {
-        if (v <= 0) {
-            throw new IllegalArgumentException("Le cours de l'action doit être strictement supérieur à zéro");
+        if (v <= 0f) {
+            throw new IllegalArgumentException("La valeur du cours doit être strictement positive");
         }
 
         if (!this.mapCours.containsKey(j)) {
-            this.mapCours.put(j, v);
-            if(j.compareTo(dernierJourModif) > 0){
+            if (j.compareTo(dernierJourModif) > 0) {
+                this.mapCours.put(j, v);
                 dernierJourModif = j;
-            }
-            else {
+            } else {
                 throw new IllegalArgumentException("Le jour de l'enregistrement du cours doit être postérieur au dernier jour ajouté");
             }
-        }
-        else {
-            throw new IllegalArgumentException("Le cours de l'action pour ce jour existe déjà");
+        } else {
+            throw new IllegalArgumentException("Un cours existe déjà pour ce jour");
         }
     }
 
@@ -73,27 +71,10 @@ public class ActionSimple extends Action {
         }
     }
 
-    @Override
-    public int hashCode() {
-        int result = getLibelle().hashCode();
-        result = 31 * result + dernierJourModif.hashCode();
-        result = 31 * result + mapCours.hashCode();
-        return result;
+    public Jour getDernierJourModif() {
+        return dernierJourModif;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
 
-        ActionSimple other = (ActionSimple) obj;
-
-        if (!this.getLibelle().equals(other.getLibelle())) return false;
-
-        if (!this.dernierJourModif.equals(other.dernierJourModif)) return false;
-
-        return this.mapCours.equals(other.mapCours);
-    }
 
 }
