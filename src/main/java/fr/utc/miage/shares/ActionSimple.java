@@ -17,6 +17,7 @@ package fr.utc.miage.shares;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Allows the creation of simple Action objects.
@@ -29,14 +30,14 @@ public class ActionSimple extends Action {
     private Jour dernierJourModif = new Jour(1, 1);
 
     // attribut lien
-    private final Map<Jour, Float> mapCours;
+    private final TreeMap<Jour, Float> mapCours;
 
     // constructeur
     public ActionSimple(final String libelle) {
         // Action simple initialisée comme 1 action
         super(libelle);
         // init spécifique
-        this.mapCours = new HashMap<>();
+        this.mapCours = new TreeMap<>();
     }
 
     // enrg possible si pas de cours pour ce jour
@@ -46,13 +47,14 @@ public class ActionSimple extends Action {
         }
 
         if (!this.mapCours.containsKey(j)) {
-            this.mapCours.put(j, v);
             if (j.compareTo(dernierJourModif) > 0) {
                 dernierJourModif = j;
             } else {
+
                 throw new IllegalArgumentException(
                         "Le jour de l'enregistrement du cours doit être postérieur au dernier jour ajouté");
             }
+            this.mapCours.put(j, v);
         } else {
             throw new IllegalArgumentException("Le cours de l'action pour ce jour existe déjà");
         }
@@ -65,9 +67,21 @@ public class ActionSimple extends Action {
 
     @Override
     public float valeur(final Jour j) {
+        // si jour existe
         if (this.mapCours.containsKey(j)) {
             return this.mapCours.get(j);
+        }
+        // si le jour n'existe pas, on regarde si il y a une valeur avant, si il n'y a
+        // pas de jour alors on renvoie 0
+        else if (this.mapCours.isEmpty()) {
+            return DEFAULT_ACTION_VALUE;
         } else {
+            // Récupération du dernier jour existant avant mon jour j
+            Jour lastJBeforeJ = mapCours.lowerKey(j);
+            // Si il existe on renvoie la valeur, sinon on renvoie 0
+            if (lastJBeforeJ != null) {
+                return mapCours.get(lastJBeforeJ);
+            }
             return DEFAULT_ACTION_VALUE;
         }
     }
@@ -75,6 +89,10 @@ public class ActionSimple extends Action {
     @Override
     public float currentValeur() {
         return valeur(dernierJourModif);
+    }
+
+    public Map<Jour, Float> getMapCours() {
+        return mapCours;
     }
 
 }

@@ -15,6 +15,11 @@
  */
 package fr.utc.miage.shares;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+
 /**
  * This class aims at describing a day based on a year and the day in this year.
  *
@@ -103,5 +108,33 @@ public class Jour implements Comparable<Jour> {
             return Integer.compare(this.day, other.day);
         }
     }
-    
+
+    public static void main(String[] args) {
+        Jour j = new Jour(2025, 56);
+        Jour j0 = new Jour(2022, 34);
+
+        Portefeuille portefeuille = new Portefeuille();
+
+        Portefeuille p2 = new Portefeuille();
+        HashMap<Action, Integer> actions = new HashMap<>();
+
+        ActionSimple a1 = new ActionSimple("a1");
+        ActionSimple a2 = new ActionSimple("a2");
+
+        a1.enrgCours(j, 100F);
+        a2.enrgCours(j0, 280F);
+
+        actions.put(a1, 5);
+        actions.put(a2, 17);
+
+        // Remplacer plus tard par acheterAction pour ajouter des actions dans le porte
+        // feuille
+        p2.setListeActions(actions);
+
+        System.out.println(a1.getMapCours());
+
+        System.out.println(p2.getValueActions(j));
+
+        // System.out.println(p2.visuPortefeuille());
+    }
 }

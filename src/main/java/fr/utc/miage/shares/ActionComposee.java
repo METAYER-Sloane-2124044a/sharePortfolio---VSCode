@@ -63,6 +63,26 @@ public class ActionComposee extends Action {
 
     }
 
+    public List<ActionSimple> getActions() {
+        return actions;
+    }
+
+    public List<Float> getFractions() {
+        return fractions;
+    }
+
+    public Map<ActionSimple, Float> getMapActionsSimple() {
+        Map<ActionSimple, Float> mapActionsSimple = new HashMap<>();
+
+        List<ActionSimple> listActions = getActions();
+        List<Float> listFractions = getFractions();
+
+        for (int idx = 0; idx < actions.size(); ++idx) {
+            mapActionsSimple.put(listActions.get(idx), listFractions.get(idx));
+        }
+        return mapActionsSimple;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
