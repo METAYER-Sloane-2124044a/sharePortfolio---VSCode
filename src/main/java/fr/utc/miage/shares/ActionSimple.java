@@ -40,6 +40,10 @@ public class ActionSimple extends Action {
         this.mapCours = new TreeMap<>();
     }
 
+    public Jour getDernierJourModif() {
+        return dernierJourModif;
+    }
+
     // enrg possible si pas de cours pour ce jour
     public void enrgCours(final Jour j, final float v) {
         if (v <= 0) {
@@ -89,6 +93,34 @@ public class ActionSimple extends Action {
     @Override
     public float currentValeur() {
         return valeur(dernierJourModif);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getLibelle().hashCode();
+        result = 31 * result + dernierJourModif.hashCode();
+        result = 31 * result + mapCours.hashCode();
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+
+        ActionSimple other = (ActionSimple) obj;
+
+        if (!this.getLibelle().equals(other.getLibelle()))
+            return false;
+
+        if (!this.dernierJourModif.equals(other.dernierJourModif))
+            return false;
+
+        return this.mapCours.equals(other.mapCours);
     }
 
     public Map<Jour, Float> getMapCours() {
