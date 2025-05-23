@@ -15,9 +15,16 @@
  */
 package fr.utc.miage.shares;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.sound.sampled.Port;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -30,9 +37,18 @@ class PortefeuilleTest {
     private static final double ADD_VALUE_NEGATIF = -100.0;
     private static final float DEFAULT_ACTION_VALUE = 100.0F;
     private static final String DEFAULT_ACTION_NAME = "Action Simple Test";
+    private static final String DEFAULT_ACTION_NAME_2 = "Action Simple Test 2";
+    private static final String DEFAULT_ACTION_NAME_3 = "Action Simple Test 3";
     private static final Jour A_DAY = new Jour(2025, 100);
     private static final ActionSimple A_SIMPLE_ACTION = new ActionSimple(DEFAULT_ACTION_NAME);
+    private static final ActionSimple A_SIMPLE_ACTION_2 = new ActionSimple(DEFAULT_ACTION_NAME_2);
+    private static final Action A_ACTION_COMPOSEE = new ActionComposee(DEFAULT_ACTION_NAME_3, List.of(A_SIMPLE_ACTION, A_SIMPLE_ACTION_2), List.of(0.5F, 0.5F));
+    private static final int A_QUANTITY = 5;
 
+    static {
+        A_SIMPLE_ACTION.enrgCours(A_DAY, DEFAULT_ACTION_VALUE);
+        A_SIMPLE_ACTION_2.enrgCours(A_DAY, DEFAULT_ACTION_VALUE);
+    }
     @Test
     void testVisuPortefeuille() {
         Portefeuille portefeuille = new Portefeuille();
@@ -54,7 +70,7 @@ class PortefeuilleTest {
         assertDoesNotThrow(portefeuille::getValueActions);
     }
 
-    @Test
+    @Test   
     void testAjouterDesFondsNegatif() {
         Portefeuille portefeuille = new Portefeuille();
         portefeuille.setValue(INITIAL_VALUE);
@@ -73,5 +89,44 @@ class PortefeuilleTest {
         Portefeuille portefeuille = new Portefeuille();
         portefeuille.getListeActions().put(A_SIMPLE_ACTION, 1);
         assertThrows(IllegalArgumentException.class, () -> portefeuille.vendreActions(A_SIMPLE_ACTION, 2));
+    }
+
+    @Test
+    void testVendreAction_vendre1ActionCasNormal_shouldWorks() {
+
+        //Before
+        Portefeuille portefeuille = new Portefeuille();
+        portefeuille.ajouterDesFonds(ADD_VALUE);
+        portefeuille.getListeActions().put(A_ACTION_COMPOSEE, A_QUANTITY);
+
+        //Actions
+        portefeuille.vendreActions(A_ACTION_COMPOSEE, 1);
+
+        //Assertions
+        Map<Action, Integer> portefeuilleMapShouldBe = new HashMap<>();
+        portefeuilleMapShouldBe.put(A_ACTION_COMPOSEE, A_QUANTITY-1);
+        assertAll(
+            () -> assertEquals(ADD_VALUE + A_ACTION_COMPOSEE.currentValeur(), portefeuille.getValue()),
+            () -> assertEquals(portefeuilleMapShouldBe, portefeuille.getListeActions()));
+    }
+
+    @Test
+    void testVendreAction_vendreToutesLesActions_shouldWorks() {
+        //Before
+        Portefeuille portefeuille = new Portefeuille();
+        portefeuille.ajouterDesFonds(ADD_VALUE);
+        portefeuille.getListeActions().put(A_SIMPLE_ACTION, A_QUANTITY);
+        portefeuille.getListeActions().put(A_SIMPLE_ACTION_2, A_QUANTITY);
+        
+        //Action
+        portefeuille.vendreActions(A_SIMPLE_ACTION, A_QUANTITY);
+
+        //Assertions
+        Map<Action, Integer> portefeuilleMapShouldBe = new HashMap<>();
+        portefeuilleMapShouldBe.put(A_SIMPLE_ACTION_2, A_QUANTITY);
+        assertAll(
+            () -> assertEquals(ADD_VALUE + A_QUANTITY*A_SIMPLE_ACTION.currentValeur(), portefeuille.getValue()),
+            () -> assertEquals(portefeuilleMapShouldBe, portefeuille.getListeActions())
+        );
     }
 }
