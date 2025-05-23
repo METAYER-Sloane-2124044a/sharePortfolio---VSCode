@@ -65,48 +65,71 @@ public class ActionComposee extends Action{
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((actions == null) ? 0 : actions.hashCode());
-        result = prime * result + ((fractions == null) ? 0 : fractions.hashCode());
-        result = prime * result + ((mapCours == null) ? 0 : mapCours.hashCode());
+        result = prime * result + actions.hashCode();
+        result = prime * result + fractions.hashCode();
+        result = prime * result + mapCours.hashCode();
         return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (!(obj instanceof ActionComposee)) return false;
+        if (!super.equals(obj)) return false;
         ActionComposee other = (ActionComposee) obj;
-        if (actions == null) {
-            if (other.actions != null)
-                return false;
-        } else if (!actions.equals(other.actions))
-            return false;
-        if (fractions == null) {
-            if (other.fractions != null)
-                return false;
-        } else if (!fractions.equals(other.fractions))
-            return false;
-        if (mapCours == null) {
-            if (other.mapCours != null)
-                return false;
-        } else if (!mapCours.equals(other.mapCours))
-            return false;
-        return true;
+        return actions.equals(other.actions)
+                && fractions.equals(other.fractions)
+                && mapCours.equals(other.mapCours);
     }
 
     @Override
     public float valeur(Jour j) {
-       return this.mapCours.getOrDefault(j, Float.valueOf(DEFAULT_ACTION_VALUE));
+        float somme = DEFAULT_ACTION_VALUE;
+        
+        for (int i = 0; i < this.actions.size() ; i++) {
+
+            ActionSimple a = this.actions.get(i);
+            float proportion = this.fractions.get(i);
+
+            somme += proportion * a.valeur(j);
+        }
+
+        return somme;
     }
 
     @Override
     public String visualiserAction() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visualiserAction'");
+        StringBuilder sb = new StringBuilder();
+        Jour jourAffiche = null;
+
+        sb.append("Nom Action Composée : \n");
+        sb.append(this.getLibelle());
+
+        sb.append("\nComposition :");
+        for (int i = 0; i < actions.size(); i++){
+            ActionSimple a = actions.get(i);
+            Float fractionAction = fractions.get(i);
+
+            sb.append(fractionAction * 100);
+            sb.append("%\n");
+
+            sb.append(a.visualiserAction());
+            sb.append("\n");
+
+            Jour jourModifAction = a.getDernierJourModif();
+
+            if (jourAffiche == null || jourAffiche.compareTo(jourModifAction) < 0) {
+                jourAffiche = jourModifAction;
+            }
+        }
+
+
+
+        sb.append("Valeur Totale : ");
+        sb.append(this.valeur(jourAffiche));
+        
+        
+        return sb.toString();
     }
     
 }
