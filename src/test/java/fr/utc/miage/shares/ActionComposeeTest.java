@@ -152,8 +152,8 @@ class ActionComposeeTest {
 
     @Test
     void testEqualsDifferentLibelle() {
-        ActionComposee action1 = new ActionComposee("Libelle1", DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
-        ActionComposee action2 = new ActionComposee("Libelle2", DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
+        ActionComposee action1 = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME1, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
+        ActionComposee action2 = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME2, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
         Assertions.assertNotEquals(action1, action2, "Actions with different libelle should not be equal");
     }
 
@@ -191,8 +191,8 @@ class ActionComposeeTest {
 
     @Test
     void testHashCodeDifferentForDifferentObjects() {
-        ActionComposee action1 = new ActionComposee("Libelle1", DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
-        ActionComposee action2 = new ActionComposee("Libelle2", DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
+        ActionComposee action1 = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME1, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
+        ActionComposee action2 = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME2, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
         // It's not required, but likely that different objects have different hashCodes
         // This test just ensures that hashCodes are not always the same for different objects
         Assertions.assertNotEquals(action1, action2, "Objects should not be equal");
@@ -254,7 +254,7 @@ class ActionComposeeTest {
     @Test
     void testEqualsWithDifferentClass() {
         ActionComposee action = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME1, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
-        Assertions.assertFalse(action.equals("not an ActionComposee"), "equals should return false when compared to a different class");
+        Assertions.assertFalse(action.equals(DEFAULT_COMPOSED_ACTION_NAME2), "equals should return false when compared to a different class");
     }
 
     @Test
