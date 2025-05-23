@@ -75,6 +75,27 @@ public class ActionSimple extends Action {
         return dernierJourModif;
     }
 
+     @Override
+    public int hashCode() {
+        int result = getLibelle().hashCode();
+        result = 31 * result + dernierJourModif.hashCode();
+        result = 31 * result + mapCours.hashCode();
+        return result;
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+
+        ActionSimple other = (ActionSimple) obj;
+
+        if (!this.getLibelle().equals(other.getLibelle())) return false;
+
+        if (!this.dernierJourModif.equals(other.dernierJourModif)) return false;
+
+        return this.mapCours.equals(other.mapCours);
+    }
 
 }
