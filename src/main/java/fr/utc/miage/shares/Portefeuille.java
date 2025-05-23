@@ -16,6 +16,7 @@
 package fr.utc.miage.shares;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Portefeuille {
 
@@ -34,7 +35,7 @@ public class Portefeuille {
         this.value = value;
     }
 
-    public HashMap<Action, Integer> getListeAction() {
+    public Map<Action, Integer> getListeAction() {
         return listeAction;
     }
 
