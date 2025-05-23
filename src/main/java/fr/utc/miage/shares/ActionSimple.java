@@ -64,10 +64,6 @@ public class ActionSimple extends Action {
         return "[" + this.getLibelle() + "] Valeur : " + (double)this.valeur(dernierJourModif) + "€";
     }
 
-    @Override
-    public String visualiserAction() {
-        return "[" + this.getLibelle() + "] Valeur : " + (double)this.valeur(dernierJourModif) + "€";
-    }
 
     @Override
     public float valeur(final Jour j) {
