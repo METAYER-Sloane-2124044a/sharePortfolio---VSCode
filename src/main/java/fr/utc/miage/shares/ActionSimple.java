@@ -41,6 +41,10 @@ public class ActionSimple extends Action {
 
     // enrg possible si pas de cours pour ce jour
     public void enrgCours(final Jour j, final float v) {
+        if (v <= 0) {
+            throw new IllegalArgumentException("Le cours de l'action doit être strictement supérieur à zéro");
+        }
+
         if (!this.mapCours.containsKey(j)) {
             this.mapCours.put(j, v);
             if(j.compareTo(dernierJourModif) > 0){
@@ -50,6 +54,14 @@ public class ActionSimple extends Action {
                 throw new IllegalArgumentException("Le jour de l'enregistrement du cours doit être postérieur au dernier jour ajouté");
             }
         }
+        else {
+            throw new IllegalArgumentException("Le cours de l'action pour ce jour existe déjà");
+        }
+    }
+
+    @Override
+    public String visualiserAction() {
+        return "[" + this.getLibelle() + "] Valeur : " + (double)this.valeur(dernierJourModif) + "€";
     }
 
     @Override
