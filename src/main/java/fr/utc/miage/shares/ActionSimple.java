@@ -39,6 +39,10 @@ public class ActionSimple extends Action {
         this.mapCours = new HashMap<>();
     }
 
+    public Jour getDernierJourModif() {
+        return dernierJourModif;
+    }
+
     // enrg possible si pas de cours pour ce jour
     public void enrgCours(final Jour j, final float v) {
         if (v <= 0) {
