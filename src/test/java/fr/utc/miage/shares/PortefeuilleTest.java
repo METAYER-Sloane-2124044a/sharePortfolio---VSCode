@@ -17,6 +17,7 @@ package fr.utc.miage.shares;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Assertions;
@@ -29,9 +30,17 @@ class PortefeuilleTest {
     private static final double ADD_VALUE = 100.0;
     private static final double ADD_VALUE_NEGATIF = -100.0;
     private static final ActionSimple ACTION_TEST_SIMPLE = new ActionSimple("ActionTest");
+    private static final ActionSimple ACTION_TEST_2_SIMPLE = new ActionSimple("ActionTest2");
+    private static final ActionSimple ACTION_TEST_3_SIMPLE = new ActionSimple("ActionTest3");
     private static final int ACTION_NB = 10;
     private static final float ACTION_VALUE = 10.0f;
+    private static final float ACTION_VALUE_2 = 20.0f;
     private static final Jour ACTION_JOUR = new Jour(2023, 101);
+    private static final List<ActionSimple> ACTION_LIST = List.of(ACTION_TEST_SIMPLE, ACTION_TEST_2_SIMPLE,
+            ACTION_TEST_3_SIMPLE);
+    private static final List<Float> FRACTION_LIST = List.of(0.5f, 0.3f, 0.2f);
+    private static final ActionComposee ACTION_COMPOSEE = new ActionComposee("ActionComposee", ACTION_LIST,
+            FRACTION_LIST);
 
     @Test
     void testVisuPortefeuille() {
@@ -103,9 +112,63 @@ class PortefeuilleTest {
         assertEquals(finalValue, portefeuille.getValue());
     }
 
-    // TODO Acheter plusieurs actions différentes
-    // TODO Acheter une action composée
-    // TODO Acheter plusieurs fois la même action composée
-    // TODO Acheter plusieurs actions différentes et composées
+    @Test
+    void testAcheterPlusieursActionsDiff() {
+        Portefeuille portefeuille = new Portefeuille();
+        portefeuille.setValue(INITIAL_VALUE);
+        ACTION_TEST_2_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
+        ACTION_TEST_3_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
+        portefeuille.acheterAction(ACTION_TEST_2_SIMPLE, ACTION_NB, ACTION_JOUR);
+        portefeuille.acheterAction(ACTION_TEST_3_SIMPLE, ACTION_NB, ACTION_JOUR);
+        assertEquals(ACTION_NB, portefeuille.getListeAction().get(ACTION_TEST_2_SIMPLE));
+        assertEquals(ACTION_NB, portefeuille.getListeAction().get(ACTION_TEST_3_SIMPLE));
+        double finalValue = INITIAL_VALUE - (ACTION_NB * 2 * ACTION_VALUE);
+        assertEquals(finalValue, portefeuille.getValue());
+    }
+
+    @Test
+    void testAcheterUneActionComposee() {
+        Portefeuille portefeuille = new Portefeuille();
+        portefeuille.setValue(INITIAL_VALUE);
+        ACTION_TEST_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
+        ACTION_TEST_2_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE_2);
+        ACTION_TEST_3_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
+        portefeuille.acheterAction(ACTION_COMPOSEE, ACTION_NB, ACTION_JOUR);
+        assertEquals(ACTION_NB, portefeuille.getListeAction().get(ACTION_COMPOSEE));
+        double finalValue = INITIAL_VALUE - (ACTION_NB * (ACTION_VALUE * FRACTION_LIST.get(0)
+                + ACTION_VALUE_2 * FRACTION_LIST.get(1) + ACTION_VALUE * FRACTION_LIST.get(2)));
+        assertEquals(finalValue, portefeuille.getValue());
+    }
+
+    @Test
+    void testAcheterMemeActionComposee() {
+        Portefeuille portefeuille = new Portefeuille();
+        portefeuille.setValue(INITIAL_VALUE);
+        ACTION_TEST_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
+        ACTION_TEST_2_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE_2);
+        ACTION_TEST_3_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
+        portefeuille.acheterAction(ACTION_COMPOSEE, ACTION_NB, ACTION_JOUR);
+        portefeuille.acheterAction(ACTION_COMPOSEE, ACTION_NB, ACTION_JOUR);
+        assertEquals(2 * ACTION_NB, portefeuille.getListeAction().get(ACTION_COMPOSEE));
+        double finalValue = INITIAL_VALUE - (2 * ACTION_NB * (ACTION_VALUE * FRACTION_LIST.get(0)
+                + ACTION_VALUE_2 * FRACTION_LIST.get(1) + ACTION_VALUE * FRACTION_LIST.get(2)));
+        assertEquals(finalValue, portefeuille.getValue());
+    }
+
+    @Test
+    void testAcheterPlusieursActionsDiffComposees() {
+        Portefeuille portefeuille = new Portefeuille();
+        portefeuille.setValue(INITIAL_VALUE);
+        ACTION_TEST_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
+        ACTION_TEST_2_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE_2);
+        ACTION_TEST_3_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
+        portefeuille.acheterAction(ACTION_COMPOSEE, ACTION_NB, ACTION_JOUR);
+        portefeuille.acheterAction(ACTION_TEST_2_SIMPLE, ACTION_NB, ACTION_JOUR);
+        assertEquals(ACTION_NB, portefeuille.getListeAction().get(ACTION_COMPOSEE));
+        assertEquals(ACTION_NB, portefeuille.getListeAction().get(ACTION_TEST_2_SIMPLE));
+        double finalValue = INITIAL_VALUE - (ACTION_NB * (ACTION_VALUE * FRACTION_LIST.get(0)
+                + ACTION_VALUE_2 * FRACTION_LIST.get(1) + ACTION_VALUE * FRACTION_LIST.get(2)));
+        assertEquals(finalValue, portefeuille.getValue());
+    }
 
 }
