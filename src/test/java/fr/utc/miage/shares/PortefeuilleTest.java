@@ -34,6 +34,16 @@ class PortefeuilleTest {
     private static final String ACTION_NAME_1 = "Action 1";
     private static final String ACTION_NAME_2 = "Action 2";
     private static final String ACTION_COMPOSEE_LIB = "Action composee 1";
+    private static final int ANNEE_1 = 2025;
+    private static final int ANNEE_2 = 2026;
+    private static final int JOUR_1 = 56;
+    private static final int JOUR_2 = 34;
+    private static final float COURS_1 = 100F;
+    private static final float COURS_2 = 280F;
+    private static final int QUANTITE_1 = 5;
+    private static final int QUANTITE_2 = 17;
+    private static final float FRACTION_1 = 0.6F;
+    private static final float FRACTION_2 = 0.4F;
 
     @Test
     void testVisuPortefeuille() {
@@ -79,16 +89,16 @@ class PortefeuilleTest {
         ActionSimple a2 = new ActionSimple(ACTION_NAME_2);
 
         // Création de jours
-        Jour j = new Jour(2025, 56);
-        Jour j0 = new Jour(2026, 34);
+        Jour j = new Jour(ANNEE_1, JOUR_1);
+        Jour j0 = new Jour(ANNEE_2, JOUR_2);
 
         // Ajout de cours aux actions
-        a1.enrgCours(j, 100F);
-        a2.enrgCours(j0, 280F);
+        a1.enrgCours(j, COURS_1);
+        a2.enrgCours(j0, COURS_2);
 
         // Définition des quantités des actions dans le portefeuille
-        actions.put(a1, 5);
-        actions.put(a2, 17);
+        actions.put(a1, QUANTITE_1);
+        actions.put(a2, QUANTITE_2);
 
         // maj du portefeuile
         p2.setListeActions(actions);
@@ -110,14 +120,14 @@ class PortefeuilleTest {
         ActionSimple a2 = new ActionSimple(ACTION_NAME_2);
 
         // Ajout de cours aux actions
-        Jour j = new Jour(2025, 56);
-        Jour j0 = new Jour(2026, 34);
-        a1.enrgCours(j, 100F);
-        a2.enrgCours(j0, 280F);
+        Jour j = new Jour(ANNEE_1, JOUR_1);
+        Jour j0 = new Jour(ANNEE_2, JOUR_2);
+        a1.enrgCours(j, COURS_1);
+        a2.enrgCours(j0, COURS_2);
 
         // Création de l'action composée
         List<ActionSimple> actionsSimple = List.of(a1, a2);
-        List<Float> fractions = List.of(0.6F, 0.4F);
+        List<Float> fractions = List.of(FRACTION_1, FRACTION_2);
         ActionComposee ac1 = new ActionComposee(ACTION_COMPOSEE_LIB, actionsSimple, fractions);
 
         // Création du portefeuille & Ajout des actions au portefeuille
