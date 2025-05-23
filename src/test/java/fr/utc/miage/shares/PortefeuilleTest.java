@@ -93,6 +93,7 @@ class PortefeuilleTest {
     void testAcheterUneActionSimple() {
         Portefeuille portefeuille = new Portefeuille();
         portefeuille.setValue(INITIAL_VALUE);
+        ACTION_TEST_SIMPLE.resetCours();
         ACTION_TEST_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
         portefeuille.acheterAction(ACTION_TEST_SIMPLE, ACTION_NB, ACTION_JOUR);
         assertEquals(ACTION_NB, portefeuille.getListeAction().get(ACTION_TEST_SIMPLE));
@@ -104,6 +105,7 @@ class PortefeuilleTest {
     void testAcheterMemeActionSimple() {
         Portefeuille portefeuille = new Portefeuille();
         portefeuille.setValue(INITIAL_VALUE);
+        ACTION_TEST_SIMPLE.resetCours();
         ACTION_TEST_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
         portefeuille.acheterAction(ACTION_TEST_SIMPLE, ACTION_NB, ACTION_JOUR);
         portefeuille.acheterAction(ACTION_TEST_SIMPLE, ACTION_NB, ACTION_JOUR);
@@ -116,6 +118,8 @@ class PortefeuilleTest {
     void testAcheterPlusieursActionsDiff() {
         Portefeuille portefeuille = new Portefeuille();
         portefeuille.setValue(INITIAL_VALUE);
+        ACTION_TEST_2_SIMPLE.resetCours();
+        ACTION_TEST_3_SIMPLE.resetCours();
         ACTION_TEST_2_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
         ACTION_TEST_3_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
         portefeuille.acheterAction(ACTION_TEST_2_SIMPLE, ACTION_NB, ACTION_JOUR);
@@ -130,6 +134,9 @@ class PortefeuilleTest {
     void testAcheterUneActionComposee() {
         Portefeuille portefeuille = new Portefeuille();
         portefeuille.setValue(INITIAL_VALUE);
+        ACTION_TEST_SIMPLE.resetCours();
+        ACTION_TEST_2_SIMPLE.resetCours();
+        ACTION_TEST_3_SIMPLE.resetCours();
         ACTION_TEST_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
         ACTION_TEST_2_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE_2);
         ACTION_TEST_3_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
@@ -144,6 +151,9 @@ class PortefeuilleTest {
     void testAcheterMemeActionComposee() {
         Portefeuille portefeuille = new Portefeuille();
         portefeuille.setValue(INITIAL_VALUE);
+        ACTION_TEST_SIMPLE.resetCours();
+        ACTION_TEST_2_SIMPLE.resetCours();
+        ACTION_TEST_3_SIMPLE.resetCours();
         ACTION_TEST_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
         ACTION_TEST_2_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE_2);
         ACTION_TEST_3_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
@@ -167,7 +177,8 @@ class PortefeuilleTest {
         assertEquals(ACTION_NB, portefeuille.getListeAction().get(ACTION_COMPOSEE));
         assertEquals(ACTION_NB, portefeuille.getListeAction().get(ACTION_TEST_2_SIMPLE));
         double finalValue = INITIAL_VALUE - (ACTION_NB * (ACTION_VALUE * FRACTION_LIST.get(0)
-                + ACTION_VALUE_2 * FRACTION_LIST.get(1) + ACTION_VALUE * FRACTION_LIST.get(2)));
+                + ACTION_VALUE_2 * FRACTION_LIST.get(1) + ACTION_VALUE * FRACTION_LIST.get(2)))
+                - (ACTION_NB * ACTION_VALUE_2);
         assertEquals(finalValue, portefeuille.getValue());
     }
 
@@ -175,6 +186,7 @@ class PortefeuilleTest {
     void testAcheterActionAvecManqueDeSolde() {
         Portefeuille portefeuille = new Portefeuille();
         portefeuille.setValue(INITIAL_VALUE);
+        ACTION_TEST_SIMPLE.resetCours();
         ACTION_TEST_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> portefeuille.acheterAction(ACTION_TEST_SIMPLE, 1000, ACTION_JOUR));
@@ -184,6 +196,7 @@ class PortefeuilleTest {
     void testAcheterActionAvecNbNegatif() {
         Portefeuille portefeuille = new Portefeuille();
         portefeuille.setValue(INITIAL_VALUE);
+        ACTION_TEST_SIMPLE.resetCours();
         ACTION_TEST_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> portefeuille.acheterAction(ACTION_TEST_SIMPLE, -1, ACTION_JOUR));
@@ -193,6 +206,7 @@ class PortefeuilleTest {
     void testAcheterActionAvecNbZero() {
         Portefeuille portefeuille = new Portefeuille();
         portefeuille.setValue(INITIAL_VALUE);
+        ACTION_TEST_SIMPLE.resetCours();
         ACTION_TEST_SIMPLE.enrgCours(ACTION_JOUR, ACTION_VALUE);
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> portefeuille.acheterAction(ACTION_TEST_SIMPLE, 0, ACTION_JOUR));
