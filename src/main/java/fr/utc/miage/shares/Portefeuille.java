@@ -15,9 +15,13 @@
  */
 package fr.utc.miage.shares;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Portefeuille {
 
     private double value;
+    private HashMap<Action, Integer> listeAction = new HashMap<>();
 
     public Portefeuille() {
         this.value = 0;
@@ -29,6 +33,10 @@ public class Portefeuille {
 
     public void setValue(double value) {
         this.value = value;
+    }
+
+    public Map<Action, Integer> getListeAction() {
+        return listeAction;
     }
 
     public String visuPortefeuille() {
@@ -51,4 +59,17 @@ public class Portefeuille {
         this.value = this.value - valeur;
     }
 
+    public void acheterAction(Action action, int nb, Jour j) {
+        if (nb <= 0) {
+            throw new IllegalArgumentException("Merci de saisir un nombre d'actions supérieur à 0");
+        } else if (action.valeur(j) * nb > this.value) {
+            throw new IllegalArgumentException("Merci de saisir un montant inférieur à la valeur du portefeuille");
+        }
+        int totalNb = nb;
+        if (listeAction.get(action) != null) {
+            totalNb += listeAction.get(action);
+        }
+        listeAction.put(action, totalNb);
+        this.retirerDesFonds(action.valeur(j) * nb);
+    }
 }

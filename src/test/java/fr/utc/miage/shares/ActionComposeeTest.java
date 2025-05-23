@@ -17,8 +17,8 @@ package fr.utc.miage.shares;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -202,26 +202,26 @@ class ActionComposeeTest {
     @Test
     void testEqualsSameObject() {
         ActionComposee action = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME1, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
-        Assertions.assertTrue(action.equals(action), "equals should return true when comparing the same object");
+        assertEquals(action, action, "equals should return true when comparing the same object");
     }
 
     @Test
     void testEqualsNullObject() {
         ActionComposee action = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME1, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
-        Assertions.assertFalse(action.equals(null), "equals should return false when comparing with null");
+        Assertions.assertNotEquals(null, action, "equals should return false when comparing with null");
     }
 
     @Test
     void testEqualsDifferentClassObject() {
         ActionComposee action = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME1, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
-        Assertions.assertFalse(action.equals(DEFAULT_ACTION_NAME1), "equals should return false when comparing with different class");
+        Assertions.assertNotEquals(DEFAULT_ACTION_NAME1, action, "equals should return false when comparing with different class");
     }
 
     @Test
     void testEqualsDifferentActionsList() {
         ActionComposee action1 = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME1, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
         ActionComposee action2 = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME1, ACTION_LIST_WITH_2_ACTIONS, FRACTION_LIST_WITH_2_FRACTIONS);
-        Assertions.assertFalse(action1.equals(action2), "equals should return false for different actions list");
+        assertNotEquals(action1, action2, "equals should return false for different actions list");
     }
 
     @Test
@@ -229,63 +229,60 @@ class ActionComposeeTest {
         List<Float> otherFractions = List.of(0.2F, 0.3F, 0.5F);
         ActionComposee action1 = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME1, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
         ActionComposee action2 = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME1, DEFAULT_LIST_ACTIONS, otherFractions);
-        Assertions.assertFalse(action1.equals(action2), "equals should return false for different fractions list");
+        assertNotEquals(action1, action2, "equals should return false for different fractions list");
     }
 
     @Test
     void testEqualsTrueForIdenticalObjects() {
         ActionComposee action1 = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME1, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
         ActionComposee action2 = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME1, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
-        Assertions.assertTrue(action1.equals(action2), "equals should return true for identical objects");
+        assertEquals(action1, action2, "equals should return true for identical objects");
     }
 
     @Test
     void testEqualsWithSameReference() {
         ActionComposee action = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME1, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
-        Assertions.assertTrue(action.equals(action), "equals should return true for the same reference");
+        assertEquals(action, action, "equals should return true for the same reference");
     }
 
     @Test
     void testEqualsWithNull() {
         ActionComposee action = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME1, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
-        Assertions.assertFalse(action.equals(null), "equals should return false when compared to null");
+        assertNotEquals(null, action, "equals should return false when compared to null");
     }
 
     @Test
     void testEqualsWithDifferentClass() {
         ActionComposee action = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME1, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
-        Assertions.assertFalse(action.equals(DEFAULT_COMPOSED_ACTION_NAME2), "equals should return false when compared to a different class");
+        assertNotEquals(DEFAULT_COMPOSED_ACTION_NAME2, action, "equals should return false when compared to a different class");
     }
 
     @Test
     void testEqualsWithDifferentActions() {
         ActionComposee action1 = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME1, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
         ActionComposee action2 = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME1, ACTION_LIST_WITH_2_ACTIONS, FRACTION_LIST_WITH_2_FRACTIONS);
-        Assertions.assertFalse(action1.equals(action2), "equals should return false for different actions lists");
+        assertNotEquals(action1, action2, "equals should return false for different actions lists");
     }
 
     @Test
     void testEqualsWithDifferentFractions() {
         ActionComposee action1 = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME1, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
         ActionComposee action2 = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME1, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS2);
-        Assertions.assertFalse(action1.equals(action2), "equals should return false for different fractions lists");
+        assertNotEquals(action1, action2, "equals should return false for different fractions lists");
     }
 
     @Test
     void testEqualsWithIdenticalObjects() {
         ActionComposee action1 = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME1, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
         ActionComposee action2 = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME1, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
-        Assertions.assertTrue(action1.equals(action2), "equals should return true for identical objects");
+        assertEquals(action1, action2, "equals should return true for identical objects");
+        assertEquals(action1.hashCode(), action2.hashCode(), "hashCode should be equal for identical objects");
     }
 
     @Test
     void testEqualsWithDifferentLibelle() {
         ActionComposee action1 = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME1, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
         ActionComposee action2 = new ActionComposee(DEFAULT_COMPOSED_ACTION_NAME2, DEFAULT_LIST_ACTIONS, DEFAULT_LIST_FRACTIONS1);
-        Assertions.assertFalse(action1.equals(action2), "equals should return false for different libelle");
+        assertNotEquals(action1, action2, "equals should return false for different libelle");
     }
-
-
-
-
 }

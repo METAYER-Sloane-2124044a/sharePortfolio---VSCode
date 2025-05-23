@@ -26,7 +26,7 @@ import java.util.Map;
 public class ActionSimple extends Action {
 
     private static final int DEFAULT_ACTION_VALUE = 0;
-    private Jour dernierJourModif = new Jour(1,1);
+    private Jour dernierJourModif = new Jour(1, 1);
 
     // attribut lien
     private final Map<Jour, Float> mapCours;
@@ -51,21 +51,25 @@ public class ActionSimple extends Action {
 
         if (!this.mapCours.containsKey(j)) {
             this.mapCours.put(j, v);
-            if(j.compareTo(dernierJourModif) > 0){
+            if (j.compareTo(dernierJourModif) > 0) {
                 dernierJourModif = j;
+            } else {
+                throw new IllegalArgumentException(
+                        "Le jour de l'enregistrement du cours doit être postérieur au dernier jour ajouté");
             }
-            else {
-                throw new IllegalArgumentException("Le jour de l'enregistrement du cours doit être postérieur au dernier jour ajouté");
-            }
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Le cours de l'action pour ce jour existe déjà");
         }
     }
 
+    public void resetCours() {
+        this.mapCours.clear();
+        this.dernierJourModif = new Jour(1, 1);
+    }
+
     @Override
     public String visualiserAction() {
-        return "[" + this.getLibelle() + "] Valeur : " + (double)this.valeur(dernierJourModif) + "€";
+        return "[" + this.getLibelle() + "] Valeur : " + (double) this.valeur(dernierJourModif) + "€";
     }
 
     @Override
@@ -87,15 +91,20 @@ public class ActionSimple extends Action {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
 
         ActionSimple other = (ActionSimple) obj;
 
-        if (!this.getLibelle().equals(other.getLibelle())) return false;
+        if (!this.getLibelle().equals(other.getLibelle()))
+            return false;
 
-        if (!this.dernierJourModif.equals(other.dernierJourModif)) return false;
+        if (!this.dernierJourModif.equals(other.dernierJourModif))
+            return false;
 
         return this.mapCours.equals(other.mapCours);
     }
